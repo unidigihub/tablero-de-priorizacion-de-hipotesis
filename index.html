@@ -416,26 +416,74 @@ function renderTable(){
   const list = getFiltered();
   const tbody = document.querySelector("#tabla tbody");
   tbody.innerHTML = "";
-  document.getElementById("noRes").hidden = list.length>0;
+  document.getElementById("noRes").hidden = list.length > 0;
+
   list.forEach(h=>{
     const tr = document.createElement("tr");
+
     tr.innerHTML = `
-      <td><strong>${esc(h.id)}</strong><br><span style="font-size:.6rem;color:#66727f;">Score ${h.score}</span></td>
-      <td><span class="categoria">${esc(h.fase)}</span></td>
+      <td>
+        <strong>${esc(h.id)}</strong><br>
+        <span style="font-size:.6rem;color:#66727f;">Score ${h.score}</span>
+      </td>
+
+      <td>
+        <span class="categoria">${esc(h.fase)}</span>
+      </td>
+
       <td>${esc(h.causa)}</td>
-      <td>${esc(h.metrica)||'<span style="color:#aab3bd">— sin definir —</span>'}</td>
-      <td><span class="impacto ${h.impacto}">${cap(h.impacto)}</span></td>
-      <td style="font-weight:700;color:#2d3a46;">${h.score}</td>
-      <td><span class="status ${h.estado}">${estadoLabel(h.estado)}</span></td>
-      <td><div><strong>P:</strong> ${esc(h.patron)||'—'}</div><div><strong>R:</strong> ${esc(h.refutacion)||'—'}</div></td>
-      <td><strong>✅</strong> ${esc(h.accionConfirma)||'—'}</div></td>
-      <td><strong>❌</strong> ${esc(h.accionRefuta)||'—'}</div></td>
-      <td>${esc(h.valorUsuario)||'—'}</td>
-      <td><div class="rowbtns">
+
+      <td>
+        ${esc(h.metrica) || '<span style="color:#aab3bd">— sin definir —</span>'}
+      </td>
+
+      <td>
+        <span class="impacto ${h.impacto}">
+          ${cap(h.impacto)}
+        </span>
+      </td>
+
+      <td>
+        <span class="esfuerzo ${h.esfuerzo}">
+          ${cap(h.esfuerzo)}
+        </span>
+      </td>
+
+      <td style="font-weight:700;color:#2d3a46;">
+        ${h.score}
+      </td>
+
+      <td>
+        <span class="status ${h.estado}">
+          ${estadoLabel(h.estado)}
+        </span>
+      </td>
+
+      <td>
+        <div><strong>P:</strong> ${esc(h.patron) || '—'}</div>
+        <div><strong>R:</strong> ${esc(h.refutacion) || '—'}</div>
+      </td>
+
+      <td>
+        ${esc(h.accionConfirma) || '—'}
+      </td>
+
+      <td>
+        ${esc(h.accionRefuta) || '—'}
+      </td>
+
+      <td>
+        ${esc(h.valorUsuario) || '—'}
+      </td>
+
+      <td>
+        <div class="rowbtns">
           <button class="btn secondary" style="padding:4px 8px;" onclick="openEdit('${h.id}')">✏️</button>
           <button class="btn danger" style="padding:4px 8px;" onclick="deleteHip('${h.id}')">🗑️</button>
-      </div></td>
+        </div>
+      </td>
     `;
+
     tbody.appendChild(tr);
   });
 }
