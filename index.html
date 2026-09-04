@@ -167,17 +167,56 @@ tbody tr:hover td { background:#fbfcfe; }
         <div class="empty" id="noRes" hidden>No hay hipótesis que coincidan con los filtros.</div>
       </div>
       <div class="guide-section">
-        <h3>📖 Cómo Calcular Priorización <span class="tag">Guía</span></h3>
-        <div class="guide-list">
-          <div class="guide-item"><strong>Regla simple:</strong> Prioridad = Impacto (3/2/1) – Fricción (penalización si Estado != Verde) y se muestra también Score heurístico <code>[ImpactoNum / EsfuerzoNum]</code>. Ajusta manualmente si existe urgencia temporal.</div>
-          <div class="guide-item"><strong>Asignar Impacto:</strong> ¿Cuánto movería la métrica final (recompra, ruido, espera) si confirma? Usa 3=alto, 2=medio, 1=bajo.</div>
-          <div class="guide-item"><strong>Asignar Esfuerzo:</strong> Estimar tiempo hasta obtener métrica fiable (1=bajo ≤30m, 2=medio ≤2h, 3=alto >2h).</div>
-          <div class="guide-item"><strong>Estado:</strong> Verde (datos listos), Amarillo (falta validación), Rojo (bloqueo), Nuevo (sin revisión).</div>
-          <div class="guide-item"><strong>Score heurístico:</strong> ImpactoNum / EsfuerzoNum (ej. 3/1=3.0). Penaliza -0.5 si Amarillo, -1 si Rojo.</div>
-          <div class="guide-item"><strong>Ordenar y ejecutar:</strong> Top 3 scores → correr queries mínima y clasificar Confirmada / Refutada / Indeterminada.</div>
-          <div class="guide-item"><strong>Tip:</strong> Si dos hipótesis comparten 80% de las mismas transformaciones de datos, ejecútalas en lote (micro-batch) para reducir coste marginal de limpieza.</div>
-        </div>
-      </div>
+  <h3>📖 Cómo calcular la priorización <span class="tag">Guía</span></h3>
+  <div class="guide-list">
+    <div class="guide-item">
+      <strong>1. Prioridad:</strong>
+      Sirve para decidir qué hipótesis revisar primero.
+      En general, conviene empezar por las que pueden tener mayor impacto
+      y requieren menos esfuerzo para comprobarse.
+    </div>
+    <div class="guide-item">
+      <strong>2. Impacto:</strong>
+      Pregunta: <em>“Si esta hipótesis es cierta, ¿cuánto podría cambiar
+      la métrica que me importa?”</em>
+      Usa <strong>3 = alto</strong>, <strong>2 = medio</strong> y
+      <strong>1 = bajo</strong>.
+    </div>
+    <div class="guide-item">
+      <strong>3. Esfuerzo:</strong>
+      Estima cuánto tiempo necesitas para obtener datos fiables:
+      <strong>1 = ≤30 min</strong>, <strong>2 = ≤2 h</strong> y
+      <strong>3 = &gt;2 h</strong>.
+    </div>
+    <div class="guide-item">
+      <strong>4. Estado:</strong>
+      Indica qué tan preparados están los datos:
+      <strong>Verde = listos</strong>,
+      <strong>Amarillo = falta validar</strong>,
+      <strong>Rojo = bloqueo</strong> y
+      <strong>Nuevo = sin revisión</strong>.
+    </div>
+    <div class="guide-item">
+      <strong>5. Score:</strong>
+      Se calcula como <code>ImpactoNum / EsfuerzoNum</code>.
+      Por ejemplo, <code>3/1 = 3.0</code>.
+      Un score más alto significa que vale más la pena investigar primero.
+      Se resta <strong>0.5</strong> si está Amarillo y <strong>1</strong> si está Rojo.
+    </div>
+    <div class="guide-item">
+      <strong>6. ¿Qué hacer?</strong>
+      Ordena las hipótesis por Score, empieza por las <strong>3 primeras</strong>,
+      ejecuta las queries mínimas necesarias y clasifica el resultado como
+      <strong>Confirmada</strong>, <strong>Refutada</strong> o
+      <strong>Indeterminada</strong>.
+    </div>
+    <div class="guide-item">
+      <strong>💡 Tip:</strong>
+      Si dos hipótesis necesitan casi los mismos datos, compruébalas juntas
+      en un <strong>micro-batch</strong>. Así evitas repetir trabajo de limpieza.
+    </div>
+  </div>
+</div>
     </div>
   </section>
 
