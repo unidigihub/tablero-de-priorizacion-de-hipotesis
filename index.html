@@ -87,7 +87,7 @@ tbody tr:hover td { background:#fbfcfe; }
 .kcol.dragover { background:#eef3fb; border-color:var(--accent); }
 
 /* DASHBOARD */
-.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:18px; }
+.kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-bottom:18px; }
 @media (max-width:900px){ .kpis{grid-template-columns:repeat(2,1fr);} }
 .kpi { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; text-align:center; }
 .kpi .num { font-size:1.6rem; font-weight:700; color:var(--accent2); }
@@ -130,13 +130,13 @@ tbody tr:hover td { background:#fbfcfe; }
       <div class="sub">Edita, elimina o agrega nuevas hipótesis (ej. tu "Supuesto 2" y "Supuesto 3" pendientes). Todo se guarda automáticamente en tu navegador.</div>
       <div class="controls">
         <div><label>Estado</label>
-          <select id="fEstado"><option value="">Todos</option><option value="v">Verde</option><option value="a">Amarillo</option><option value="r">Rojo</option><option value=nN">Nuevo</option></select>
+          <select id="fEstado"><option value="">Todos</option><option value="v">Verde</option><option value="a">Amarillo</option><option value="r">Rojo</option><option value=nN">Nuevo</option></s[...]
         </div>
         <div><label>Impacto</label>
           <select id="fImpacto"><option value="">Todos</option><option value="alto">Alto</option><option value="medio">Medio</option><option value="bajo">Bajo</option></select>
         </div>
         <div><label>Fase DT</label>
-          <select id="fFase"><option value="">Todas</option><option value="Empatizar">Empatizar</option><option value="Definir">Definir</option><option value="Idear">Idear</option><option value="Definir/Idear/Prototipar">Definir/Idear/Prototipar</option><option value="Prototipar">Prototipar</option><option value="Testear">Testear</option></select>
+          <select id="fFase"><option value="">Todas</option><option value="Empatizar">Empatizar</option><option value="Definir">Definir</option><option value="Idear">Idear</option><option value="[...]">
         </div>
         <div style="flex:1;min-width:180px;"><label>Buscar</label>
           <input type="search" id="fBusca" placeholder="Causa, métrica, variable...">
@@ -155,6 +155,7 @@ tbody tr:hover td { background:#fbfcfe; }
   <th class="sortable" data-key="impacto">Impacto</th>
   <th class="sortable" data-key="esfuerzo">Esfuerzo</th>
   <th class="sortable" data-key="score">Score</th>
+  <th>Minimum Analytical Experiment</th>
   <th>Estado</th>
   <th>Patrón esperado / Refutación</th>
   <th>Acción confirma</th>
@@ -237,7 +238,7 @@ tbody tr:hover td { background:#fbfcfe; }
   <section class="view" id="view-kanban">
     <div class="panel">
       <h2>Kanban por Semáforo <span class="pill">ARRASTRABLE</span></h2>
-     <div class="sub">Arrastra una tarjeta entre columnas para actualizar su Estado (V/A/R) al avanzar en la validación. <strong>V</strong>=lista para correr hoy · <strong>A</strong>=falta 1 dato · <strong>R</strong>=falta variable clave/patrón.</div>
+     <div class="sub">Arrastra una tarjeta entre columnas para actualizar su Estado (V/A/R) al avanzar en la validación. <strong>V</strong>=lista para correr hoy · <strong>A</strong>=falta 1 da[...]</div>
       <div class="kanban">
         <div class="kcol v" data-estado="v"><h3>🟢 Verde <span class="kcount" id="cnt-v">0</span></h3><div class="kbody" id="kcol-v"></div></div>
         <div class="kcol a" data-estado="a"><h3>🟡 Amarillo <span class="kcount" id="cnt-a">0</span></h3><div class="kbody" id="kcol-a"></div></div>
@@ -256,6 +257,8 @@ tbody tr:hover td { background:#fbfcfe; }
         <div class="kpi"><div class="num" id="kpi-verde">0</div><div class="lbl">Listas (Verde)</div></div>
         <div class="kpi"><div class="num" id="kpi-score">0</div><div class="lbl">Score promedio</div></div>
         <div class="kpi"><div class="num" id="kpi-altas">0</div><div class="lbl">Impacto Alto</div></div>
+        <div class="kpi"><div class="num" id="kpi-confirmed">0</div><div class="lbl">Confirmadas (MAD)</div></div>
+        <div class="kpi"><div class="num" id="kpi-refuted">0</div><div class="lbl">Refutadas (MAD)</div></div>
       </div>
       <div class="charts">
         <div class="chart-box"><h4>Distribución por Estado</h4><canvas id="chartEstado" height="220"></canvas></div>
@@ -273,7 +276,7 @@ tbody tr:hover td { background:#fbfcfe; }
     <div class="form-grid">
       <div><label>ID</label><input type="text" id="f_id"></div>
       <div><label>Fase DT origen</label>
-        <select id="f_fase"><option value="empatizar">Empatizar</option><option value="definir">Definir</option><option value="idear">Idear</option><option value="Definir/Idear/Prototipar">Definir/Idear/Prototipar</option><option value="Prototipar">Prototipar</option><option value="Testear">Testear</option></select>
+        <select id="f_fase"><option value="empatizar">Empatizar</option><option value="definir">Definir</option><option value="idear">Idear</option><option value="Definir/Idear/Prototipar">Defini[...]</select>
       </div>
       <div class="full"><label>Causa / Supuesto central</label><textarea id="f_causa" rows="2"></textarea></div>
       <div class="full"><label>Insight de empatía</label><textarea id="f_insight" rows="2"></textarea></div>
@@ -292,6 +295,7 @@ tbody tr:hover td { background:#fbfcfe; }
       <div><label>Estado</label>
         <select id="f_estado"><option value="v">Verde</option><option value="a">Amarillo</option><option value="r">Rojo</option><option value=nN">Nuevo</option></select>
       </div>
+      <div class="full"><label>Minimum Analytical Experiment (MAD) — valor numérico</label><input type="number" id="f_mad" step="0.01" placeholder="ej. 13.9"></div>
     </div>
     <div class="modal-actions">
       <button class="btn secondary" id="btnCancel">Cancelar</button>
@@ -308,7 +312,7 @@ const seedData = [
   {
     id:"H-01",
     fase:"Empatizar",
-    causa:"Uso de parqueaderos alternativos por déficit físico real de cupos dentro del conjunto. Si se integra la comunidad completa al sistema de asignación de espacios de parqueaderos, entonces los residentes de Altos de Fontibón tendrán sus vehículos asegurados.",
+    causa:"Uso de parqueaderos alternativos por déficit físico real de cupos dentro del conjunto. Si se integra la comunidad completa al sistema de asignación de espacios de parqueaderos, ento[...]",
     insight:"El usuario carece de un lugar seguro para su vehículo.",
     metrica:"IRSV = (Vehículos Afectados por Robos/Daños / Total Vehículos en Vía Pública) × 100",
     impacto:"alto",
@@ -324,7 +328,7 @@ const seedData = [
   {
     id:"H-02",
     fase:"Definir",
-    causa:"Si se reasignan los cupos subutilizados de visitantes hacia un modelo rotativo para residentes con carros en vía pública, entonces el IRSV se reducirá en un 20% en el próximo trimestre, porque la falta de disponibilidad de espacio físico es el factor que obliga al parqueo alternativo.",
+    causa:"Si se reasignan los cupos subutilizados de visitantes hacia un modelo rotativo para residentes con carros en vía pública, entonces el IRSV se reducirá en un 20% en el próximo trime[...]",
     insight:"Monitoreo de riesgos derivados de la gestión de parqueaderos (comparendos, robos, daños, gastos adicionales).",
     metrica:"IRSV = (N° robos/daños/rayones reportados / Total vehículos residentes expuestos en vía pública) × 100",
     impacto:"alto",
@@ -380,9 +384,43 @@ let hipotesisData = loadData();
 let currentSort = {key:"", asc:true};
 let editingId = null;
 
-function esc(s){ return (s||"").toString().replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function esc(s){ return (s||"").toString().replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 function cap(s){ return s? s.charAt(0).toUpperCase()+s.slice(1) : s; }
 function estadoLabel(e){ return {v:"Verde",a:"Amarillo",r:"Rojo"}[e]||e; }
+
+/* ============== EVALUAR MAD ============== */
+function safeId(s){ return (s||"").toString().replace(/[^a-zA-Z0-9_-]/g,'_'); }
+function parseCondition(text){
+  if(!text) return null;
+  // Busca operador y número (acepta coma como decimal y %)
+  const m = text.match(/([<>≤≥]=?|=)\s*([0-9]+(?:[.,][0-9]+)?)/);
+  if(!m){
+    // si no hay operador, busca primer número
+    const m2 = text.match(/([0-9]+(?:[.,][0-9]+)?)/);
+    if(!m2) return null;
+    return {op:'=', val:parseFloat(m2[1].replace(',', '.'))};
+  }
+  const op = m[1].replace('≤','<=').replace('≥','>=');
+  const val = parseFloat(m[2].replace(',', '.'));
+  return {op, val};
+}
+function applyOp(op, a, b){
+  if(op==='<=') return a <= b;
+  if(op==='>=') return a >= b;
+  if(op==='<' ) return a < b;
+  if(op==='>' ) return a > b;
+  if(op==='=') return a === b;
+  return false;
+}
+function evaluateMad(h){
+  const v = (h.madValue===undefined || h.madValue===null || h.madValue==='') ? null : Number(h.madValue);
+  if(v===null) return null;
+  const condP = parseCondition(h.patron);
+  const condR = parseCondition(h.refutacion);
+  if(condP && applyOp(condP.op, v, condP.val)) return 'Confirmada';
+  if(condR && applyOp(condR.op, v, condR.val)) return 'Refutada';
+  return 'Indeterminada';
+}
 
 /* ============== TABLA ============== */
 function getFiltered(){
@@ -421,6 +459,10 @@ function renderTable(){
   list.forEach(h=>{
     const tr = document.createElement("tr");
 
+    const safe = safeId(h.id);
+    const madVal = (h.madValue===undefined || h.madValue===null || h.madValue==='') ? '' : h.madValue;
+    const madResult = evaluateMad(h) || '—';
+
     tr.innerHTML = `
       <td>
         <strong>${esc(h.id)}</strong><br>
@@ -451,6 +493,14 @@ function renderTable(){
 
       <td style="font-weight:700;color:#2d3a46;">
         ${h.score}
+      </td>
+
+      <td>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="number" id="mad_${safe}" value="${madVal}" step="0.01" style="width:90px;padding:6px;border:1px solid var(--line);border-radius:6px;">
+          <button class="btn secondary" style="padding:6px 8px;font-size:.7rem;" onclick="saveMad('${h.id}')">Comprobar</button>
+        </div>
+        <div style="margin-top:6px;font-size:.65rem;color:#56606a;">Resultado: <strong>${madResult}</strong></div>
       </td>
 
       <td>
@@ -488,6 +538,26 @@ function renderTable(){
   });
 }
 
+function saveMad(id){
+  const h = hipotesisData.find(x=>x.id===id);
+  if(!h) return;
+  const safe = safeId(id);
+  const el = document.getElementById('mad_'+safe);
+  if(!el) return;
+  const v = el.value.trim();
+  if(v===''){
+    h.madValue = null; h.madResult = null; saveData(); renderAll(); alert('MAD limpiado.'); return;
+  }
+  const num = Number(v);
+  if(Number.isNaN(num)) { alert('Ingrese un número válido para MAD'); return; }
+  h.madValue = num;
+  h.madResult = evaluateMad(h);
+  saveData(); renderAll();
+  if(h.madResult==='Confirmada') alert(`Resultado: Confirmada — MAD=${num}`);
+  else if(h.madResult==='Refutada') alert(`Resultado: Refutada — MAD=${num}`);
+  else alert(`Resultado: Indeterminada — MAD=${num}`);
+}
+
 function bindSort(){
   document.querySelectorAll("th.sortable").forEach(th=>{
     th.addEventListener("click", ()=>{
@@ -512,7 +582,7 @@ function exportJSON(){
 function openNew(){
   editingId = null;
   document.getElementById("modalTitle").textContent = "Nueva Hipótesis";
-  ["f_id","f_causa","f_insight","f_metrica","f_patron","f_refutacion","f_accionC","f_accionR","f_valor"].forEach(id=>document.getElementById(id).value="");
+  ["f_id","f_causa","f_insight","f_metrica","f_patron","f_refutacion","f_accionC","f_accionR","f_valor","f_mad"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("f_fase").value="Empatizar";
   document.getElementById("f_impacto").value="medio";
   document.getElementById("f_esfuerzo").value="medio";
@@ -538,6 +608,7 @@ function openEdit(id){
   document.getElementById("f_accionR").value = h.accionRefuta;
   document.getElementById("f_valor").value = h.valorUsuario;
   document.getElementById("f_estado").value = h.estado;
+  document.getElementById("f_mad").value = (h.madValue===undefined || h.madValue===null) ? '' : h.madValue;
   document.getElementById("modalBackdrop").classList.add("open");
 }
 function closeModal(){ document.getElementById("modalBackdrop").classList.remove("open"); }
@@ -561,8 +632,10 @@ function saveForm(){
     accionRefuta: document.getElementById("f_accionR").value.trim(),
     valorUsuario: document.getElementById("f_valor").value.trim(),
     estado: document.getElementById("f_estado").value,
-    riesgo: ""
+    riesgo: "",
+    madValue: (document.getElementById("f_mad").value.trim()==='') ? null : Number(document.getElementById("f_mad").value.trim())
   };
+  newObj.madResult = evaluateMad(newObj);
   if(editingId){
     const idx = hipotesisData.findIndex(h=>h.id===editingId);
     if(idx>-1) hipotesisData[idx] = {...hipotesisData[idx], ...newObj};
@@ -572,6 +645,11 @@ function saveForm(){
   saveData();
   closeModal();
   renderAll();
+  if(newObj.madValue!==null){
+    if(newObj.madResult==='Confirmada') alert(`Resultado: Confirmada — MAD=${newObj.madValue}`);
+    else if(newObj.madResult==='Refutada') alert(`Resultado: Refutada — MAD=${newObj.madValue}`);
+    else alert(`Resultado: Indeterminada — MAD=${newObj.madValue}`);
+  }
 }
 
 /* ============== KANBAN ============== */
@@ -626,6 +704,16 @@ function renderDashboard(){
   const avg = hipotesisData.length ? (hipotesisData.reduce((s,h)=>s+h.score,0)/hipotesisData.length).toFixed(2) : 0;
   document.getElementById("kpi-score").textContent = avg;
   document.getElementById("kpi-altas").textContent = hipotesisData.filter(h=>h.impacto==="alto").length;
+
+  // contar resultados MAD
+  let confirmed=0, refuted=0;
+  hipotesisData.forEach(h=>{
+    const res = evaluateMad(h);
+    if(res==='Confirmada') confirmed++;
+    if(res==='Refutada') refuted++;
+  });
+  document.getElementById("kpi-confirmed").textContent = confirmed;
+  document.getElementById("kpi-refuted").textContent = refuted;
 
   const estadoCounts = {v:0,a:0,r:0};
   hipotesisData.forEach(h=> estadoCounts[h.estado] = (estadoCounts[h.estado]||0)+1);
