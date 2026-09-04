@@ -136,7 +136,7 @@ tbody tr:hover td { background:#fbfcfe; }
           <select id="fImpacto"><option value="">Todos</option><option value="alto">Alto</option><option value="medio">Medio</option><option value="bajo">Bajo</option></select>
         </div>
         <div><label>Fase DT</label>
-          <select id="fFase"><option value="">Todas</option><option value="Empatizar">Empatizar</option><option value="Definir">Definir</option><option value="Idear">Idear</option></select>
+          <select id="fFase"><option value="">Todas</option><option value="Empatizar">Empatizar</option><option value="Definir">Definir</option><option value="Idear">Idear</option><option value="Definir/Idear/Prototipar">Definir/Idear/Prototipar</option><option value="Prototipar">Prototipar</option><option value="Testear">Testear</option></select>
         </div>
         <div style="flex:1;min-width:180px;"><label>Buscar</label>
           <input type="search" id="fBusca" placeholder="Causa, métrica, variable...">
@@ -153,6 +153,7 @@ tbody tr:hover td { background:#fbfcfe; }
             <th>Causa / Supuesto</th>
             <th>Métrica clave</th>
             <th class="sortable" data-key="impacto">Impacto</th>
+            <th class="sortable" data-key="esfuerzo">Esfuerzo</th>
             <th class="sortable" data-key="score">Score</th>
             <th>Estado</th>
             <th>Patrón esperado / Refutación</th>
@@ -184,7 +185,7 @@ tbody tr:hover td { background:#fbfcfe; }
   <section class="view" id="view-kanban">
     <div class="panel">
       <h2>Kanban por Semáforo <span class="pill">ARRASTRABLE</span></h2>
-     <div class="sub">Arrastra una tarjeta entre columnas para actualizar su Estado (V/A/R) al avanzar en la validación. <strong>V</strong>=lista para correr hoy · <strong>A</strong>=falta 1 dato ·[...]
+     <div class="sub">Arrastra una tarjeta entre columnas para actualizar su Estado (V/A/R) al avanzar en la validación. <strong>V</strong>=lista para correr hoy · <strong>A</strong>=falta 1 dato · <strong>R</strong>=falta variable clave/patrón.</div>
       <div class="kanban">
         <div class="kcol v" data-estado="v"><h3>🟢 Verde <span class="kcount" id="cnt-v">0</span></h3><div class="kbody" id="kcol-v"></div></div>
         <div class="kcol a" data-estado="a"><h3>🟡 Amarillo <span class="kcount" id="cnt-a">0</span></h3><div class="kbody" id="kcol-a"></div></div>
@@ -255,7 +256,7 @@ const seedData = [
   {
     id:"H-01",
     fase:"Empatizar",
-    causa:"Uso de parqueaderos alternativos por déficit físico real de cupos dentro del conjunto. Si se integra la comunidad completa al sistema de asignación de espacios de parqueaderos, entonces [...]
+    causa:"Uso de parqueaderos alternativos por déficit físico real de cupos dentro del conjunto. Si se integra la comunidad completa al sistema de asignación de espacios de parqueaderos, entonces los residentes de Altos de Fontibón tendrán sus vehículos asegurados.",
     insight:"El usuario carece de un lugar seguro para su vehículo.",
     metrica:"IRSV = (Vehículos Afectados por Robos/Daños / Total Vehículos en Vía Pública) × 100",
     impacto:"alto",
@@ -271,7 +272,7 @@ const seedData = [
   {
     id:"H-02",
     fase:"Definir",
-    causa:"Si se reasignan los cupos subutilizados de visitantes hacia un modelo rotativo para residentes con carros en vía pública, entonces el IRSV se reducirá en un 20% en el próximo trimestre,[...]
+    causa:"Si se reasignan los cupos subutilizados de visitantes hacia un modelo rotativo para residentes con carros en vía pública, entonces el IRSV se reducirá en un 20% en el próximo trimestre, porque la falta de disponibilidad de espacio físico es el factor que obliga al parqueo alternativo.",
     insight:"Monitoreo de riesgos derivados de la gestión de parqueaderos (comparendos, robos, daños, gastos adicionales).",
     metrica:"IRSV = (N° robos/daños/rayones reportados / Total vehículos residentes expuestos en vía pública) × 100",
     impacto:"alto",
