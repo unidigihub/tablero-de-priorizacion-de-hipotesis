@@ -62,6 +62,16 @@ tbody tr:hover td { background:#fbfcfe; }
 .rowbtns button { border:none; font-size:.58rem; padding:3px 7px; border-radius:6px; cursor:pointer; }
 .empty { padding:26px; text-align:center; font-size:.75rem; color:#65717d; }
 
+/* Guide Section */
+.guide-section { background:#fafbfd; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-top:18px; }
+.guide-section h3 { margin:0 0 10px; font-size:.9rem; font-weight:700; color:#2c2f36; display:flex; align-items:center; gap:8px; }
+.guide-section h3 .tag { background:#e5f7ed; color:var(--ok); padding:2px 8px; border-radius:4px; font-size:.6rem; font-weight:600; text-transform:uppercase; }
+.guide-list { display:grid; gap:10px; font-size:.72rem; line-height:1.5; }
+.guide-item { padding:10px 12px; background:#fff; border-left:3px solid var(--accent2); border-radius:4px; }
+.guide-item strong { color:#2c2f36; font-weight:700; }
+.guide-item em { color:#5d6774; font-style:italic; }
+.guide-item code { background:#eef1f6; padding:1px 4px; border-radius:3px; font-family:monospace; font-size:.65rem; }
+
 /* KANBAN */
 .kanban { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 @media (max-width:900px){ .kanban{grid-template-columns:1fr;} }
@@ -155,6 +165,18 @@ tbody tr:hover td { background:#fbfcfe; }
         </table>
         <div class="empty" id="noRes" hidden>No hay hipótesis que coincidan con los filtros.</div>
       </div>
+      <div class="guide-section">
+        <h3>📖 Cómo Calcular Priorización <span class="tag">Guía</span></h3>
+        <div class="guide-list">
+          <div class="guide-item"><strong>Regla simple:</strong> Prioridad = Impacto (3/2/1) – Fricción (penalización si Estado != Verde) y se muestra también Score heurístico <code>[ImpactoNum / EsfuerzoNum]</code>. Ajusta manualmente si existe urgencia temporal.</div>
+          <div class="guide-item"><strong>Asignar Impacto:</strong> ¿Cuánto movería la métrica final (recompra, ruido, espera) si confirma? Usa 3=alto, 2=medio, 1=bajo.</div>
+          <div class="guide-item"><strong>Asignar Esfuerzo:</strong> Estimar tiempo hasta obtener métrica fiable (1=bajo ≤30m, 2=medio ≤2h, 3=alto >2h).</div>
+          <div class="guide-item"><strong>Estado:</strong> Verde (datos listos), Amarillo (falta validación), Rojo (bloqueo), Nuevo (sin revisión).</div>
+          <div class="guide-item"><strong>Score heurístico:</strong> ImpactoNum / EsfuerzoNum (ej. 3/1=3.0). Penaliza -0.5 si Amarillo, -1 si Rojo.</div>
+          <div class="guide-item"><strong>Ordenar y ejecutar:</strong> Top 3 scores → correr queries mínima y clasificar Confirmada / Refutada / Indeterminada.</div>
+          <div class="guide-item"><strong>Tip:</strong> Si dos hipótesis comparten 80% de las mismas transformaciones de datos, ejecútalas en lote (micro-batch) para reducir coste marginal de limpieza.</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -162,7 +184,7 @@ tbody tr:hover td { background:#fbfcfe; }
   <section class="view" id="view-kanban">
     <div class="panel">
       <h2>Kanban por Semáforo <span class="pill">ARRASTRABLE</span></h2>
-     <div class="sub">Arrastra una tarjeta entre columnas para actualizar su Estado (V/A/R) al avanzar en la validación. <strong>V</strong>=lista para correr hoy · <strong>A</strong>=falta 1 dato · <strong>R</strong>=falta variable clave/patrón.</div>
+     <div class="sub">Arrastra una tarjeta entre columnas para actualizar su Estado (V/A/R) al avanzar en la validación. <strong>V</strong>=lista para correr hoy · <strong>A</strong>=falta 1 dato ·[...]
       <div class="kanban">
         <div class="kcol v" data-estado="v"><h3>🟢 Verde <span class="kcount" id="cnt-v">0</span></h3><div class="kbody" id="kcol-v"></div></div>
         <div class="kcol a" data-estado="a"><h3>🟡 Amarillo <span class="kcount" id="cnt-a">0</span></h3><div class="kbody" id="kcol-a"></div></div>
@@ -233,7 +255,7 @@ const seedData = [
   {
     id:"H-01",
     fase:"Empatizar",
-    causa:"Uso de parqueaderos alternativos por déficit físico real de cupos dentro del conjunto. Si se integra la comunidad completa al sistema de asignación de espacios de parqueaderos, entonces los residentes de Altos de Fontibón tendrán sus vehículos asegurados.",
+    causa:"Uso de parqueaderos alternativos por déficit físico real de cupos dentro del conjunto. Si se integra la comunidad completa al sistema de asignación de espacios de parqueaderos, entonces [...]
     insight:"El usuario carece de un lugar seguro para su vehículo.",
     metrica:"IRSV = (Vehículos Afectados por Robos/Daños / Total Vehículos en Vía Pública) × 100",
     impacto:"alto",
@@ -249,7 +271,7 @@ const seedData = [
   {
     id:"H-02",
     fase:"Definir",
-    causa:"Si se reasignan los cupos subutilizados de visitantes hacia un modelo rotativo para residentes con carros en vía pública, entonces el IRSV se reducirá en un 20% en el próximo trimestre, porque la falta de disponibilidad de espacio físico es el factor que obliga al parqueo alternativo.",
+    causa:"Si se reasignan los cupos subutilizados de visitantes hacia un modelo rotativo para residentes con carros en vía pública, entonces el IRSV se reducirá en un 20% en el próximo trimestre,[...]
     insight:"Monitoreo de riesgos derivados de la gestión de parqueaderos (comparendos, robos, daños, gastos adicionales).",
     metrica:"IRSV = (N° robos/daños/rayones reportados / Total vehículos residentes expuestos en vía pública) × 100",
     impacto:"alto",
