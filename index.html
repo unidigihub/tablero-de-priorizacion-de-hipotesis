@@ -308,7 +308,7 @@ tbody tr:hover td { background:#fbfcfe; }
 <script>
 /* ============== DATOS BASE (de tu Excel) ============== */
 const STORAGE_KEY = "afontibon_hipotesis_v1";
-
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzh6Mozgb4rYoerbdPWZkaVPLLuHBVfQvJIBshhHPwBaJ1LXiokCh3X-mjQAX2Mpn3mxg/exec";
 const seedData = [
   {
     id:"H-01",
@@ -369,19 +369,30 @@ function computeScore(h){
   const score = base - (estadoPenalty[h.estado]||0);
   return Number(score.toFixed(2));
 }
-
-function loadData(){
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if(raw){
-    try { return JSON.parse(raw); } catch(e){ return [...seedData]; }
+async function loadData(){
+  try {
+    const resp = await fetch(SHEETS_URL);
+    const data = await resp.json();
+    return data.length ? data : [...seedData];
+  } catch(e) {
+    console.error("No se pudo leer de Google Sheets, usando respaldo local:", e);
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [...seedData];
   }
-  return [...seedData];
 }
-function saveData(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(hipotesisData));
+async function saveData(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(hipotesisData)); // respaldo local por si falla la red
+  try {
+    await fetch(SHEETS_URL, {
+      method: "POST",
+      body: JSON.stringify(hipotesisData)
+    });
+  } catch(e) {
+    console.error("No se pudo guardar en Google Sheets:", e);
+  }
 }
 
-let hipotesisData = loadData();
+let hipotesisData = [...seedData];
 let currentSort = {key:"", asc:true};
 let editingId = null;
 
@@ -766,7 +777,8 @@ function renderAll(){
   renderDashboard();
 }
 
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", async ()=>{
+  hipotesisData = await loadData();
   renderAll();
   bindSort();
   bindKanbanDrop();
