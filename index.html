@@ -17,6 +17,10 @@ body { margin:0; font-family:var(--font); background:var(--bg); color:#222; -web
 header { padding:20px clamp(16px,3vw,48px) 12px; background:linear-gradient(90deg,var(--accent2),var(--accent)); color:#fff; }
 header h1 { margin:0 0 4px; font-size:clamp(1.3rem,3vw,1.9rem); font-weight:600; }
 header p { margin:0; font-size:.9rem; opacity:.92; max-width:900px; }
+.header-top { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.header-logos { display:flex; align-items:center; gap:14px; flex-shrink:0; }
+.header-logos .logo { height:44px; width:auto; max-width:140px; object-fit:contain; background:#fff; padding:4px 8px; border-radius:8px; }
+.header-text { flex:1; min-width:200px; } 
 nav.tabs { display:flex; gap:6px; padding:10px clamp(16px,3vw,48px) 0; background:linear-gradient(90deg,var(--accent2),var(--accent)); flex-wrap:wrap; }
 nav.tabs button {
   background:rgba(255,255,255,.15); border:none; color:#fff; padding:9px 16px;
