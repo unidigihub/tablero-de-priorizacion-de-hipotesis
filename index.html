@@ -114,10 +114,10 @@ tbody tr:hover td { background:#fbfcfe; }
 
 .badge-inline { background:#eef1f6; padding:2px 6px; border-radius:6px; font-size:.55rem; font-weight:600; }
 /* ============== RESPONSIVE MÓVIL ============== */
-@media (max-width:600px){
+@media (max-width:768px){
   header { padding:14px 14px 10px; }
   header h1 { font-size:1.1rem; }
-  header p { font-size:.78rem; } 
+  header p { font-size:.78rem; }
   .header-top { flex-direction:column; align-items:flex-start; gap:10px; }
   .header-logos .logo { height:32px; }
 
@@ -139,13 +139,40 @@ tbody tr:hover td { background:#fbfcfe; }
   .charts { grid-template-columns:1fr; }
   .kanban { grid-template-columns:1fr; }
 
-  .table-wrap { border-radius:8px; }
-  table { min-width:900px; font-size:.65rem; }
-  thead th, tbody td { padding:7px 6px; }
-
   .modal { padding:16px 14px 14px; width:100%; max-height:92vh; }
   .form-grid { grid-template-columns:1fr; }
-} 
+
+  /* ---- TABLA A TARJETAS ---- */
+  .table-wrap { overflow-x:visible; border:none; background:transparent; }
+  table { min-width:0; width:100%; }
+  thead { display:none; }
+  #tabla tbody tr {
+    display:block;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin-bottom:14px;
+    padding:10px 12px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);
+  }
+  #tabla tbody td {
+    display:block;
+    padding:8px 0;
+    border-bottom:1px solid #f0f2f5;
+    white-space:normal;
+  }
+  #tabla tbody td:last-child { border-bottom:none; }
+  #tabla tbody td::before {
+    content: attr(data-label);
+    display:block;
+    font-size:.6rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    color:#8a94a0;
+    margin-bottom:4px;
+  }
+}  
 </style>
 </head>
 <body>
@@ -522,76 +549,75 @@ function renderTable(){
     const madResult = evaluateMad(h) || '—';
 
     tr.innerHTML = `
-      <td>
-        <strong>${esc(h.id)}</strong><br>
-        <span style="font-size:.6rem;color:#66727f;">Score ${h.score}</span>
-      </td>
+  <td data-label="ID">
+    <strong>${esc(h.id)}</strong><br>
+    <span style="font-size:.6rem;color:#66727f;">Score ${h.score}</span>
+  </td>
 
-      <td>
-        <span class="categoria">${esc(h.fase)}</span>
-      </td>
+  <td data-label="Fase DT">
+    <span class="categoria">${esc(h.fase)}</span>
+  </td>
 
-      <td>${esc(h.causa)}</td>
+  <td data-label="Causa / Supuesto">${esc(h.causa)}</td>
 
-      <td>
-        ${esc(h.metrica) || '<span style="color:#aab3bd">— sin definir —</span>'}
-      </td>
+  <td data-label="Métrica clave">
+    ${esc(h.metrica) || '<span style="color:#aab3bd">— sin definir —</span>'}
+  </td>
 
-      <td>
-        <span class="impacto ${h.impacto}">
-          ${cap(h.impacto)}
-        </span>
-      </td>
+  <td data-label="Impacto">
+    <span class="impacto ${h.impacto}">
+      ${cap(h.impacto)}
+    </span>
+  </td>
 
-      <td>
-        <span class="esfuerzo ${h.esfuerzo}">
-          ${cap(h.esfuerzo)}
-        </span>
-      </td>
+  <td data-label="Esfuerzo">
+    <span class="esfuerzo ${h.esfuerzo}">
+      ${cap(h.esfuerzo)}
+    </span>
+  </td>
 
-      <td style="font-weight:700;color:#2d3a46;">
-        ${h.score}
-      </td>
+  <td data-label="Score" style="font-weight:700;color:#2d3a46;">
+    ${h.score}
+  </td>
 
-      <td>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <input type="number" id="mad_${safe}" value="${madVal}" step="0.01" style="width:90px;padding:6px;border:1px solid var(--line);border-radius:6px;">
-          <button class="btn secondary" style="padding:6px 8px;font-size:.7rem;" onclick="saveMad('${h.id}')">Comprobar</button>
-        </div>
-        <div style="margin-top:6px;font-size:.65rem;color:#56606a;">Resultado: <strong>${madResult}</strong></div>
-      </td>
+  <td data-label="Minimum Analytical Experiment">
+    <div style="display:flex;gap:6px;align-items:center;">
+      <input type="number" id="mad_${safe}" value="${madVal}" step="0.01" style="width:90px;padding:6px;border:1px solid var(--line);border-radius:6px;">
+      <button class="btn secondary" style="padding:6px 8px;font-size:.7rem;" onclick="saveMad('${h.id}')">Comprobar</button>
+    </div>
+    <div style="margin-top:6px;font-size:.65rem;color:#56606a;">Resultado: <strong>${madResult}</strong></div>
+  </td>
 
-      <td>
-        <span class="status ${h.estado}">
-          ${estadoLabel(h.estado)}
-        </span>
-      </td>
+  <td data-label="Estado">
+    <span class="status ${h.estado}">
+      ${estadoLabel(h.estado)}
+    </span>
+  </td>
 
-      <td>
-        <div><strong>P:</strong> ${esc(h.patron) || '—'}</div>
-        <div><strong>R:</strong> ${esc(h.refutacion) || '—'}</div>
-      </td>
+  <td data-label="Patrón / Refutación">
+    <div><strong>P:</strong> ${esc(h.patron) || '—'}</div>
+    <div><strong>R:</strong> ${esc(h.refutacion) || '—'}</div>
+  </td>
 
-      <td>
-        ${esc(h.accionConfirma) || '—'}
-      </td>
+  <td data-label="Acción confirma">
+    ${esc(h.accionConfirma) || '—'}
+  </td>
 
-      <td>
-        ${esc(h.accionRefuta) || '—'}
-      </td>
+  <td data-label="Acción refuta">
+    ${esc(h.accionRefuta) || '—'}
+  </td>
 
-      <td>
-        ${esc(h.valorUsuario) || '—'}
-      </td>
+  <td data-label="Valor para usuario">
+    ${esc(h.valorUsuario) || '—'}
+  </td>
 
-      <td>
-        <div class="rowbtns">
-          <button class="btn secondary" style="padding:4px 8px;" onclick="openEdit('${h.id}')">✏️</button>
-          <button class="btn danger" style="padding:4px 8px;" onclick="deleteHip('${h.id}')">🗑️</button>
-        </div>
-      </td>
-    `;
-
+  <td data-label="Acciones">
+    <div class="rowbtns">
+      <button class="btn secondary" style="padding:4px 8px;" onclick="openEdit('${h.id}')">✏️</button>
+      <button class="btn danger" style="padding:4px 8px;" onclick="deleteHip('${h.id}')">🗑️</button>
+    </div>
+  </td>
+`;   
     tbody.appendChild(tr);
   });
 }
