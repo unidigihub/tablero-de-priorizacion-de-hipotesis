@@ -197,9 +197,30 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important
       </select>
     </div>
 
-    <div class="gk-checkbox-row">
+       <div class="gk-checkbox-row">
       <input type="checkbox" id="gkConsent" onchange="validarFormularioGatekeeper()">
-      <label for="gkConsent">Autorizo de manera previa, expresa e informada el tratamiento de mis datos personales para fines de contacto, soporte y envío de información estratégica, conforme a los lineamientos del marco normativo de protección de datos (Habeas Data) aplicable en mi jurisdicción. Comprendo que mis datos no serán comercializados a terceros.</label>
+      <label for="gkConsent">Autorizo de manera previa, expresa e informada a UniDigiHub LATAM S.A. DE C.V. el tratamiento de mis datos personales para fines de contacto, soporte operativo y envío de información estratégica o comercial. Comprendo que mis datos serán gestionados conforme al marco normativo de protección de datos aplicable en mi jurisdicción y que no serán comercializados a terceros. He leído y acepto la <a href="#" onclick="mostrarPoliticaPrivacidad(event)" style="color:var(--accent);font-weight:600;">Política de Tratamiento de Datos Personales</a>.</label>
+    </div>
+
+    <div id="gkPolicyModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(27,39,51,.55);align-items:center;justify-content:center;padding:20px;">
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);max-width:640px;width:100%;max-height:80vh;overflow-y:auto;padding:28px;">
+        <h2 style="margin:0 0 14px;color:var(--accent);font-size:17px;">Política de Tratamiento de Datos Personales — UniDigiHub LATAM S.A. DE C.V.</h2>
+        <div style="font-size:13.5px;line-height:1.65;color:var(--text);">
+          <p>En cumplimiento de las normativas de protección de datos personales vigentes en las jurisdicciones donde operamos, incluyendo la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) en México, la Ley Estatutaria 1581 de 2012 en Colombia y la Ley N° 8968 en Costa Rica, UniDigiHub LATAM S.A. DE C.V. actúa como responsable del tratamiento de sus datos personales.</p>
+          <p><b>1. Finalidad del Tratamiento:</b> Los datos recopilados (nombre, correo electrónico, país y demás información de diagnóstico estratégico) serán utilizados exclusivamente para:</p>
+          <ul style="margin:6px 0 12px 18px;">
+            <li>Proveer acceso y soporte a las herramientas analíticas, tableros de priorización y plataformas educativas.</li>
+            <li>Enviar información, novedades, convocatorias y posicionamiento comercial de nuestros programas de formación digital bajo un modelo B2C.</li>
+            <li>Analizar métricas de uso para mejorar la experiencia del usuario y optimizar la ruta de aprendizaje tecnológico.</li>
+          </ul>
+          <p><b>2. Protección y Confidencialidad:</b> UniDigiHub LATAM garantiza que los datos personales no serán vendidos, alquilados ni transferidos a terceros no autorizados sin el consentimiento previo del titular, salvo por requerimientos legales o para la ejecución técnica de infraestructura en la nube (proveedores de software) que operan bajo estrictos acuerdos de confidencialidad.</p>
+          <p><b>3. Derechos del Titular:</b> Como titular de la información, usted tiene derecho a conocer, actualizar, rectificar y solicitar la supresión de sus datos personales en cualquier momento, así como a revocar esta autorización. Para ejercer estos derechos, puede dirigir su solicitud a los canales oficiales de contacto de la organización.</p>
+          <p>Al utilizar nuestras herramientas y proporcionar su información, usted declara que los datos suministrados son veraces y otorga su consentimiento para que UniDigiHub LATAM S.A. DE C.V. los procese bajo los términos aquí descritos.</p>
+        </div>
+        <div class="btn-row" style="justify-content:flex-end;margin-top:16px;">
+          <button class="secondary" onclick="document.getElementById('gkPolicyModal').style.display='none';">Cerrar</button>
+        </div>
+      </div>
     </div>
 
     <div class="btn-row" style="justify-content:flex-end;">
