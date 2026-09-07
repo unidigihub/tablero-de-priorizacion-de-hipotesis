@@ -24,12 +24,24 @@ header p { margin:0; font-size:.9rem; opacity:.92; max-width:900px; }
   width:auto;
   max-width:140px;
   min-width:60px;
+  aspect-ratio:120/44;
   object-fit:contain;
   background:#fff;
   padding:4px 8px;
   border-radius:8px;
   display:block;
-}  
+  flex-shrink:0;
+}
+.header-logos .logo.logo-error {
+  border:2px dashed #ffb4b4;
+  color:#fff;
+  font-size:.55rem;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#c0382b22;
+}
 .header-text { flex:1; min-width:200px; } 
 nav.tabs { display:flex; gap:6px; padding:10px clamp(16px,3vw,48px) 0; background:linear-gradient(90deg,var(--accent2),var(--accent)); flex-wrap:wrap; }
 nav.tabs button {
