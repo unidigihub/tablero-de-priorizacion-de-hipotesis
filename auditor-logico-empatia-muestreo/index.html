@@ -782,12 +782,24 @@ function enviarGatekeeper(){
   const pad = (n) => String(n).padStart(2, '0');
   const fechaHoraISO = `${ahora.getFullYear()}-${pad(ahora.getMonth()+1)}-${pad(ahora.getDate())} ${pad(ahora.getHours())}:${pad(ahora.getMinutes())}:${pad(ahora.getSeconds())}`;
 
+  // Payload con las claves EXACTAS que espera tu Apps Script (doPost)
   const payload = {
-    nombreCompleto: nombre,
-    correoElectronico: email,
+    fecha: fechaHoraISO,
+    nombre: nombre,
+    correo: email,
     pais: pais,
-    consentimientoHabeasData: consent,
-    fechaHoraRegistro: fechaHoraISO
+    habeasData: consent ? "Sí" : "No",
+    problemaCentral: "",
+    causa1: "",
+    causa2: "",
+    causa3: "",
+    efecto1: "",
+    efecto2: "",
+    efecto3: "",
+    estadoFiltro: "Registro inicial (Gatekeeper)",
+    poblacion: "",
+    muestra: "",
+    veredicto: ""
   };
 
   // Envío del paquete al Webhook de Google Apps Script
@@ -803,6 +815,7 @@ function enviarGatekeeper(){
     document.body.style.overflow = 'auto';
   });
 }
+  
 function mostrarPoliticaPrivacidad(event){
   event.preventDefault();
   document.getElementById('gkPolicyModal').style.display = 'flex';
