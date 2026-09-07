@@ -201,8 +201,10 @@ tbody tr:hover td { background:#fbfcfe; }
 <header>
   <div class="header-top">
     <div class="header-logos">
-      <img src="logo-unidigihub.png" alt="UniDigiHub" class="logo">
-      <img src="logo-academia-arthur.png" alt="Academia Arthur" class="logo">
+      <img src="logo-unidigihub.png" alt="UniDigiHub" class="logo" width="120" height="44" loading="eager" decoding="async"
+  onerror="this.onerror=null; this.classList.add('logo-error'); this.alt='⚠ Logo no encontrado';">
+<img src="logo-academia-arthur.png" alt="Academia Arthur" class="logo" width="120" height="44" loading="eager" decoding="async"
+  onerror="this.onerror=null; this.classList.add('logo-error'); this.alt='⚠ Logo no encontrado';"> 
     </div>
     <div class="header-text">
       <h1>Tablero de Priorización</h1>
@@ -464,28 +466,29 @@ function computeScore(h){
   const score = base - (estadoPenalty[h.estado]||0);
   return Number(score.toFixed(2));
 }
-async function loadData(){
-  try {
-    const resp = await fetch(SHEETS_URL + "?token=" + encodeURIComponent(SHEETS_TOKEN));
-    const data = await resp.json();
-    return data.length ? data : [...seedData];
-  } catch(e) {
-    console.error("No se pudo leer de Google Sheets, usando respaldo local:", e);
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [...seedData];
-  }
-}
-async function saveData(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(hipotesisData)); // respaldo local por si falla la red
+async function saveItem(item){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(hipotesisData));
   try {
     await fetch(SHEETS_URL + "?token=" + encodeURIComponent(SHEETS_TOKEN), {
-  method: "POST",
-  body: JSON.stringify(hipotesisData)
-});  
- } catch(e) {
-  console.error("No se pudo guardar en Google Sheets:", e);
-  alert("⚠ No se pudo sincronizar con Google Sheets. Tu cambio se guardó solo en este navegador — revisa tu conexión a internet.");
+      method: "POST",
+      body: JSON.stringify({ action:"upsert", item })
+    });
+  } catch(e) {
+    console.error("No se pudo guardar en Google Sheets:", e);
+    alert("⚠ No se pudo sincronizar con Google Sheets. Tu cambio se guardó solo en este navegador.");
+  }
 }
+async function deleteItemRemote(id){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(hipotesisData));
+  try {
+    await fetch(SHEETS_URL + "?token=" + encodeURIComponent(SHEETS_TOKEN), {
+      method: "POST",
+      body: JSON.stringify({ action:"delete", id })
+    });
+  } catch(e) {
+    console.error("No se pudo eliminar en Google Sheets:", e);
+    alert("⚠ No se pudo sincronizar la eliminación con Google Sheets.");
+  }
 }  
 let hipotesisData = [...seedData];
 let currentSort = {key:"", asc:true};
@@ -654,7 +657,7 @@ function saveMad(id){
   if(!el) return;
   const v = el.value.trim();
   if(v===''){
-    h.madValue = null; h.madResult = null; saveData(); renderAll(); alert('MAD limpiado.'); return;
+    h.madValue = null; h.madResult = null; saveItem(h); renderAll(); alert('MAD limpiado.'); return;
   }
   const num = Number(v);
   if(Number.isNaN(num)) { alert('Ingrese un número válido para MAD'); return; }
