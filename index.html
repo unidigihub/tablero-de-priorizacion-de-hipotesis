@@ -224,70 +224,65 @@ tbody tr:hover td { background:#fbfcfe; }
     <div class="panel">
       <h2>Hipótesis Registradas <span class="pill">CRUD</span></h2>
       <div class="sub">Edita, elimina o agrega nuevas hipótesis (ej. tu "Supuesto 2" y "Supuesto 3" pendientes). Todo se guarda automáticamente en tu navegador.</div>
-      *** Begin Patch
-*** Update File: index.html
-@@
--      <div class="controls">
--        <div><label for="fEstado>Estado</label>
--          <select id="fEstado"><option value="">Todos</option><option value="v">Verde</option><option value="a">Amarillo</option><option value="r">Rojo</option><option value="n">Nuevo</option></s[...]
--        </div>
--        <div><label for="fImpacto>Impacto</label>
--          <select id="fImpacto"><option value="">Todos</option><option value="alto">Alto</option><option value="medio">Medio</option><option value="bajo">Bajo</option></select>
--        </div>
--        <div><label for="fFase DT>Fase DT</label>
--          <select id="fFase"><option value="">Todas</option><option value="Empatizar">Empatizar</option><option value="Definir">Definir</option><option value="Idear">Idear</option><option value="[...]
--        </div>
--        <div style="flex:1;min-width:180px;"><label>Buscar</label>
--          <input type="search" id="fBusca" placeholder="Causa, métrica, variable...">
--        </div>
--        <div><label>&nbsp;</label><button class="btn secondary" id="btnClear">Limpiar</button></div>
--        <div><label>&nbsp;</label><button class="btn" id="btnNew">+ Nueva Hipótesis</button></div>
--        <div><label>&nbsp;</label><button class="btn secondary" id="btnExport">Exportar JSON</button></div>
--      </div>
-+      <div class="controls">
-+        <div>
-+          <label for="fEstado">Estado</label>
-+          <select id="fEstado">
-+            <option value="">Todos</option>
-+            <option value="v">Verde</option>
-+            <option value="a">Amarillo</option>
-+            <option value="r">Rojo</option>
-+            <option value="n">Nuevo</option>
-+          </select>
-+        </div>
-+
-+        <div>
-+          <label for="fImpacto">Impacto</label>
-+          <select id="fImpacto">
-+            <option value="">Todos</option>
-+            <option value="alto">Alto</option>
-+            <option value="medio">Medio</option>
-+            <option value="bajo">Bajo</option>
-+          </select>
-+        </div>
-+
-+        <div>
-+          <label for="fFase">Fase DT</label>
-+          <select id="fFase">
-+            <option value="">Todas</option>
-+            <option value="Empatizar">Empatizar</option>
-+            <option value="Definir">Definir</option>
-+            <option value="Idear">Idear</option>
-+            <option value="Prototipar">Prototipar</option>
-+            <option value="Testear">Testear</option>
-+          </select>
-+        </div>
-+
-+        <div style="flex:1;min-width:180px;">
-+          <label for="fBusca">Buscar</label>
-+          <input type="search" id="fBusca" placeholder="Causa, métrica, variable...">
-+        </div>
-+
-+        <div><label>&nbsp;</label><button class="btn secondary" id="btnClear">Limpiar</button></div>
-+        <div><label>&nbsp;</label><button class="btn" id="btnNew">+ Nueva Hipótesis</button></div>
-+        <div><label>&nbsp;</label><button class="btn secondary" id="btnExport">Exportar JSON</button></div>
-+      </div>
-*** End Patch
+<div class="controls">
+<div><label for="fEstado>Estado</label>
+<select id="fEstado"><option value="">Todos</option><option value="v">Verde</option><option value="a">Amarillo</option><option value="r">Rojo</option><option value="n">Nuevo</option></s[...]
+</div>
+<div><label for="fImpacto>Impacto</label>
+<select id="fImpacto"><option value="">Todos</option><option value="alto">Alto</option><option value="medio">Medio</option><option value="bajo">Bajo</option></select>
+</div>
+<div><label for="fFase DT>Fase DT</label>
+<select id="fFase"><option value="">Todas</option><option value="Empatizar">Empatizar</option><option value="Definir">Definir</option><option value="Idear">Idear</option><option value="[...]
+</div>
+<div style="flex:1;min-width:180px;"><label>Buscar</label>
+<input type="search" id="fBusca" placeholder="Causa, métrica, variable...">
+</div>
+<div><label>&nbsp;</label><button class="btn secondary" id="btnClear">Limpiar</button></div>
+<div><label>&nbsp;</label><button class="btn" id="btnNew">+ Nueva Hipótesis</button></div>
+<div><label>&nbsp;</label><button class="btn secondary" id="btnExport">Exportar JSON</button></div>
+</div>
+<div class="controls">
+<div>
+<label for="fEstado">Estado</label>
+<select id="fEstado">
+<option value="">Todos</option>
+<option value="v">Verde</option>
+<option value="a">Amarillo</option>
+<option value="r">Rojo</option>
+<option value="n">Nuevo</option>
+</select>
+</div>
+<div>
+<label for="fImpacto">Impacto</label>
+<select id="fImpacto">
+<option value="">Todos</option>
+<option value="alto">Alto</option>
+<option value="medio">Medio</option>
+<option value="bajo">Bajo</option>
+</select>
+</div>
+
+<div>
+<label for="fFase">Fase DT</label>
+<select id="fFase">
+<option value="">Todas</option>
+<option value="Empatizar">Empatizar</option>
+<option value="Definir">Definir</option>
+<option value="Idear">Idear</option>
+<option value="Prototipar">Prototipar</option>
+<option value="Testear">Testear</option>
+</select>
+ </div>
+<div style="flex:1;min-width:180px;">
+<label for="fBusca">Buscar</label>
+<input type="search" id="fBusca" placeholder="Causa, métrica, variable...">
+</div>
+
+<div><label>&nbsp;</label><button class="btn secondary" id="btnClear">Limpiar</button></div>
+<div><label>&nbsp;</label><button class="btn" id="btnNew">+ Nueva Hipótesis</button></div>
+<div><label>&nbsp;</label><button class="btn secondary" id="btnExport">Exportar JSON</button></div>
+</div>
+
       <div class="table-wrap">
         <table id="tabla">
           <thead><tr>
