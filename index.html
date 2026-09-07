@@ -873,7 +873,12 @@ function renderAll(){
   renderKanban();
   renderDashboard();
 }
-
+setInterval(async ()=>{
+  const modalAbierto = document.getElementById("modalBackdrop").classList.contains("open");
+  if(modalAbierto) return;
+  hipotesisData = await loadData();
+  renderAll();
+}, 20000); 
 document.addEventListener("DOMContentLoaded", async ()=>{
   document.getElementById("noRes").hidden = false;
   document.getElementById("noRes").textContent = "Cargando datos...";
