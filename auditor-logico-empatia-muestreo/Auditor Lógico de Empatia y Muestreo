@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditor Lógico de Empatía y Muestreo</title>
+<style>
+:root{
+  --bg:#FFFFFF; --panel:#FFFFFF; --panel-2:#F3F9FF; --panel-3:#E8F2FF;
+  --border:#BFDCFF; --accent:#1E90FF; --accent-2:#FFA500; --text:#1b2733;
+  --muted:#5b7897; --danger:#FFA500; --danger-bg:#FFF3E0; --danger-border:#FFC873;
+  --success:#6DBE45; --success-bg:#EEF8E7; --success-border:#B7DE9C; --warn:#FFA500;
+  --radius:16px; --radius-sm:10px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+  background:radial-gradient(circle at 20% -10%,#F3F9FF 0%,var(--bg) 55%);
+  color:var(--text);min-height:100vh;padding-bottom:60px;}
+header{padding:34px 24px 16px;text-align:center;}
+header h1{margin:0;font-size:clamp(24px,4vw,34px);
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;}
+header p{color:var(--muted);margin:8px auto 0;max-width:680px;font-size:14.5px;line-height:1.5;}
+nav.tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:22px auto 30px;padding:0 16px;}
+.nav-btn{background:var(--panel);border:1px solid var(--border);color:var(--text);
+  padding:12px 20px;border-radius:999px;cursor:pointer;font-size:14.5px;font-weight:600;
+  display:flex;align-items:center;gap:8px;transition:all .25s ease;}
+.nav-btn:hover{border-color:var(--accent);}
+.nav-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  border-color:transparent;color:#fff;box-shadow:0 6px 20px -6px rgba(30,144,255,.45);}
+.nav-btn.locked{opacity:.5;cursor:not-allowed;}
+main{max-width:1080px;margin:0 auto;padding:0 20px;}
+.tab-content{display:none;animation:fadeIn .35s ease;}
+.tab-content.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:22px;
+  box-shadow:0 4px 20px -12px rgba(30,144,255,.15);}
+.panel h2{margin:0 0 6px;font-size:19px;display:flex;align-items:center;gap:10px;color:var(--text);}
+.panel .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:760px){.grid3,.grid2{grid-template-columns:1fr;}}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;}
+input[type=text], input[type=number], textarea{
+  width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+  padding:11px 13px;border-radius:var(--radius-sm);font-size:14px;font-family:inherit;resize:vertical;
+  transition:border-color .2s;}
+input:focus, textarea:focus{outline:none;border-color:var(--accent);}
+.field-block{margin-bottom:16px;}
+.trunk-block{background:var(--panel-3);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:16px;margin-bottom:20px;}
+.trunk-block label{color:var(--accent);}
+.section-tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;
+  background:rgba(30,144,255,.12);color:var(--accent);margin-bottom:10px;letter-spacing:.5px;}
+.section-tag.effects{background:rgba(255,165,0,.15);color:#B36A00;}
+button.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:#fff;
+  padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:700;cursor:pointer;
+  box-shadow:0 8px 22px -8px rgba(30,144,255,.5);transition:transform .15s;}
+button.primary:hover{transform:translateY(-1px);}
+button.secondary{background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+  padding:11px 20px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;}
+button.secondary:hover{border-color:var(--accent);}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;}
+.alert{padding:14px 16px;border-radius:var(--radius-sm);margin-bottom:10px;font-size:13.5px;
+  display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
+.alert.error{background:var(--danger-bg);border:1px solid var(--danger-border);color:#B36A00;}
+.alert.success{background:var(--success-bg);border:1px solid var(--success-border);color:#3f7a24;}
+.alert b{color:var(--text);}
+.result-box{margin-top:18px;}
+.socratic-list{margin-top:14px;}
+.socratic-item{background:var(--panel-2);border-left:3px solid var(--accent-2);border-radius:var(--radius-sm);
+  padding:14px 16px;margin-bottom:10px;font-size:14px;line-height:1.55;color:var(--text);}
+.socratic-item b{color:#B36A00;}
+.pill{display:inline-block;background:var(--panel-3);padding:2px 8px;border-radius:6px;font-size:12px;color:#B36A00;font-weight:700;}
+
+/* --- Flip Cards Tab 2 --- */
+.flip-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:10px;}
+.flip-row{display:grid;grid-template-columns:1fr;gap:12px;}
+.flip-card{background:transparent;width:100%;height:120px;perspective:1200px;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.2,.2,1);
+  transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius-sm);
+  padding:14px 16px;display:flex;align-items:center;font-size:14px;line-height:1.4;border:1px solid var(--border);}
+.flip-front{background:var(--danger-bg);border-color:var(--danger-border);color:#B36A00;}
+.flip-back{background:var(--success-bg);border-color:var(--success-border);color:#3f7a24;transform:rotateY(180deg);}
+.flip-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:-4px;margin-bottom:14px;}
+.trunk-flip .flip-face{font-weight:700;font-size:16px;justify-content:center;text-align:center;}
+.goal-final{margin-top:22px;padding:20px;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg, rgba(30,144,255,.10), rgba(255,165,0,.10));
+  border:1px solid var(--accent);}
+.goal-final h3{margin:0 0 8px;color:var(--accent);font-size:15px;}
+.locked-msg{text-align:center;color:var(--muted);padding:60px 20px;font-size:15px;}
+.locked-msg .big{font-size:40px;display:block;margin-bottom:14px;}
+
+/* --- Tab 3 --- */
+.stat-result{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+@media(max-width:760px){.stat-result{grid-template-columns:1fr;}}
+.stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:16px;text-align:center;}
+.stat-card .num{font-size:26px;font-weight:800;color:var(--accent);}
+.stat-card .lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+.risk-panel{margin-top:20px;border-radius:var(--radius);padding:22px;border:1px solid var(--danger-border);
+  background:var(--danger-bg);}
+.risk-panel.ok{border-color:var(--success-border);background:var(--success-bg);}
+.risk-panel h3{margin:0 0 10px;font-size:17px;display:flex;align-items:center;gap:8px;}
+.risk-panel.ok h3{color:var(--success);}
+.risk-panel:not(.ok) h3{color:#B36A00;}
+.risk-bar-track{width:100%;height:14px;background:var(--panel-3);border-radius:999px;overflow:hidden;margin:14px 0;}
+.risk-bar-fill{height:100%;background:linear-gradient(90deg,var(--warn),#FF8C00);border-radius:999px;transition:width .6s ease;}
+.risk-bar-fill.ok{background:linear-gradient(90deg,var(--accent),var(--success));}
+.wow-box{margin-top:16px;background:#FFF3E0;border:1px dashed var(--warn);border-radius:var(--radius-sm);
+  padding:14px 16px;font-size:13px;line-height:1.6;color:#8a5a00;}
+.wow-box b{color:#B36A00;}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧪 Auditor Lógico de Empatía y Muestreo</h1>
+  <p>Aduana metodológica: valida la lógica causal de tu problema y el rigor estadístico de tu muestra antes de invertir en una solución.</p>
+</header>
+
+<nav class="tabs">
+  <button class="nav-btn active" data-tab="tab1" onclick="goToTab('tab1')">🌳 1. Árbol de Problemas</button>
+  <button class="nav-btn locked" data-tab="tab2" onclick="goToTab('tab2')"><span class="lock-icon">🔒</span> 2. Árbol de Objetivos</button>
+  <button class="nav-btn" data-tab="tab3" onclick="goToTab('tab3')">📊 3. Calculadora de Muestreo</button>
+</nav>
+
+<main>
+
+<!-- ===================== TAB 1 ===================== -->
+<section id="tab1" class="tab-content active">
+
+  <div class="panel">
+    <h2>🌳 Auditoría del Árbol de Problemas</h2>
+    <p class="sub">Completa el tronco, las raíces y las ramas. El sistema aplicará 5 reglas del Marco Lógico antes de dejarte avanzar.</p>
+
+    <div class="trunk-block">
+      <span class="section-tag">TRONCO — Problema Central</span>
+      <label>Problema Central</label>
+      <textarea id="trunk" rows="2" placeholder="Ej: Alta tasa de deserción de usuarios en el primer mes de uso"></textarea>
+    </div>
+
+    <div class="field-block">
+      <span class="section-tag">RAÍCES — Causas</span>
+      <div class="grid3">
+        <div><label>Causa Raíz 1</label><textarea id="causa1" rows="3"></textarea></div>
+        <div><label>Causa Raíz 2</label><textarea id="causa2" rows="3"></textarea></div>
+        <div><label>Causa Raíz 3</label><textarea id="causa3" rows="3"></textarea></div>
+      </div>
+    </div>
+
+    <div class="field-block">
+      <span class="section-tag effects">RAMAS — Efectos</span>
+      <div class="grid3">
+        <div><label>Efecto 1</label><textarea id="efecto1" rows="3"></textarea></div>
+        <div><label>Efecto 2</label><textarea id="efecto2" rows="3"></textarea></div>
+        <div><label>Efecto 3</label><textarea id="efecto3" rows="3"></textarea></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="primary" onclick="auditarArbol()">🔍 Auditar</button>
+      <button class="secondary" onclick="cargarEjemplo()">📋 Cargar ejemplo</button>
+      <button class="secondary" onclick="limpiarFormulario()">🗑️ Limpiar</button>
+    </div>
+
+    <div id="alertZone" class="result-box"></div>
+  </div>
+
+  <div class="panel" id="socraticPanel" style="display:none;">
+    <h2>🧠 Filtro de Profundidad Causal</h2>
+    <p class="sub">Tu árbol pasó el filtro estructural. Ahora responde honestamente estas 5 preguntas socráticas antes de continuar al diseño de solución.</p>
+    <div class="socratic-list" id="socraticList"></div>
+  </div>
+
+</section>
+
+<!-- ===================== TAB 2 ===================== -->
+<section id="tab2" class="tab-content">
+  <div id="tab2Locked" class="panel">
+    <div class="locked-msg">
+      <span class="big">🔒</span>
+      Completa y aprueba la <b>Auditoría del Árbol de Problemas</b> (Pestaña 1) para desbloquear la transformación al Árbol de Objetivos.
+    </div>
+  </div>
+
+  <div id="tab2Content" style="display:none;">
+    <div class="panel">
+      <h2>🌱 Transformación a Árbol de Objetivos</h2>
+      <p class="sub">Haz clic en cada tarjeta para voltearla y transformar el estado negativo en su objetivo positivo equivalente.</p>
+
+      <div class="flip-row">
+        <div class="flip-card trunk-flip" onclick="toggleFlip(this)">
+          <div class="flip-inner">
+            <div class="flip-face flip-front" id="trunkNeg"></div>
+            <div class="flip-face flip-back" id="trunkPos"></div>
+          </div>
+        </div>
+      </div>
+      <p class="flip-hint">👆 Tronco — Problema Central → Meta Estratégica</p>
+
+      <div class="flip-grid" id="causesFlipGrid"></div>
+      <p class="flip-hint">👆 Raíces — Causas → Medios</p>
+
+      <div class="flip-grid" id="effectsFlipGrid"></div>
+      <p class="flip-hint">👆 Ramas — Efectos → Fines</p>
+
+      <div class="goal-final" id="goalFinalBox"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TAB 3 ===================== -->
+<section id="tab3" class="tab-content">
+  <div class="panel">
+    <h2>📊 Calculadora Predictiva de Representatividad</h2>
+    <p class="sub">Calcula si tu Mapa de Empatía tiene la base estadística suficiente para escalar sus conclusiones (95% de confianza, 5% de margen de error).</p>
+
+    <div class="grid2">
+      <div>
+        <label>Tamaño de la Población Total (N)</label>
+        <input type="number" id="poblacion" min="1" placeholder="Ej: 5000">
+      </div>
+      <div>
+        <label>Encuestas / Entrevistas Realizadas (n)</label>
+        <input type="number" id="muestraActual" min="0" placeholder="Ej: 40">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="primary" onclick="calcularMuestra()">📐 Calcular Representatividad</button>
+    </div>
+
+    <div id="statResultZone"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>Auditor Lógico de Empatía y Muestreo · Ejecución 100% local · Sin conexión a servidores</footer>
+
+<script>
+/* ==================================================================
+   NAVEGACIÓN ENTRE PESTAÑAS
+================================================================== */
+let tab1Approved = false;
+
+function goToTab(tabId){
+  if(tabId === 'tab2' && !tab1Approved){
+    flashLockedTab();
+    return;
+  }
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelector(`.nav-btn[data-tab="${tabId}"]`).classList.add('active');
+}
+
+function flashLockedTab(){
+  const btn = document.querySelector('.nav-btn[data-tab="tab2"]');
+  btn.style.transition = 'none';
+  btn.style.background = 'var(--danger-bg)';
+  setTimeout(()=>{ btn.style.transition='background .4s'; btn.style.background=''; }, 350);
+}
+
+function unlockTab2(){
+  tab1Approved = true;
+  const btn = document.querySelector('.nav-btn[data-tab="tab2"]');
+  btn.classList.remove('locked');
+  btn.innerHTML = '✅ 2. Árbol de Objetivos';
+}
+
+/* ==================================================================
+   DATOS DE EJEMPLO Y UTILIDADES
+================================================================== */
+function cargarEjemplo(){
+  document.getElementById('trunk').value   = 'Alta tasa de deserción de usuarios en el primer mes de uso de la aplicación';
+  document.getElementById('causa1').value  = 'El proceso de onboarding no explica el valor central del producto en los primeros tres minutos de uso';
+  document.getElementById('causa2').value  = 'Los usuarios no encuentran un caso de uso personal relevante durante la primera semana de la aplicación';
+  document.getElementById('causa3').value  = 'El equipo de soporte tarda más de 48 horas en resolver dudas críticas de configuración inicial';
+  document.getElementById('efecto1').value = 'Aumento en los costos de adquisición al tener que reemplazar usuarios que abandonan';
+  document.getElementById('efecto2').value = 'Incremento en las quejas registradas en tiendas de aplicaciones durante el primer mes';
+  document.getElementById('efecto3').value = 'Pérdida de ingresos recurrentes proyectados por baja retención mensual';
+  document.getElementById('alertZone').innerHTML = '';
+  document.getElementById('socraticPanel').style.display = 'none';
+}
+
+function limpiarFormulario(){
+  ['trunk','causa1','causa2','causa3','efecto1','efecto2','efecto3'].forEach(id=>{
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('alertZone').innerHTML = '';
+  document.getElementById('socraticPanel').style.display = 'none';
+}
+
+function normalizar(txt){
+  return txt.toLowerCase().trim();
+}
+
+function contarPalabras(txt){
+  return txt.trim().split(/\s+/).filter(w => w.length > 0);
+}
+
+/* ==================================================================
+   MOTOR DE VALIDACIÓN — 5 REGLAS DEL MARCO LÓGICO
+================================================================== */
+const FRASES_AUSENCIA = ['falta de', 'carencia de', 'no hay', 'ausencia de', 'inexistencia de'];
+const PALABRAS_NEGATIVAS_INICIO = ['alta','alto','baja','bajo','deficiente','caída','caida','aumento',
+  'escasa','escaso','elevado','elevada','excesivo','excesiva','insuficiente','limitado','limitada',
+  'lento','lenta','reducido','reducida','pobre','débil','debil','mala','malo'];
+const TERMINOS_IMPACTO = ['costo','costos','tiempo','pérdida','perdida','riesgo','riesgos','quejas',
+  'deserción','desercion','ingresos','rotación','rotacion','satisfacción','satisfaccion','retención',
+  'retencion','multas','sanciones','accidentes','reputación','reputacion','abandono','morosidad'];
+
+function auditarArbol(){
+  const trunk = document.getElementById('trunk').value.trim();
+  const causas = [document.getElementById('causa1').value.trim(),
+                   document.getElementById('causa2').value.trim(),
+                   document.getElementById('causa3').value.trim()];
+  const efectos = [document.getElementById('efecto1').value.trim(),
+                    document.getElementById('efecto2').value.trim(),
+                    document.getElementById('efecto3').value.trim()];
+
+  const errores = [];
+
+  // Validación de campos vacíos
+  if(!trunk) errores.push({regla:'Campos', msg:'El Problema Central (tronco) no puede estar vacío.'});
+  causas.forEach((c,i)=>{ if(!c) errores.push({regla:'Campos', msg:`La Causa Raíz ${i+1} no puede estar vacía.`}); });
+  efectos.forEach((e,i)=>{ if(!e) errores.push({regla:'Campos', msg:`El Efecto ${i+1} no puede estar vacío.`}); });
+
+  if(errores.length > 0){
+    renderAlertas(errores);
+    document.getElementById('socraticPanel').style.display = 'none';
+    return;
+  }
+
+  const trunkNorm = normalizar(trunk);
+
+  // REGLA 1 — Ausencia
+  FRASES_AUSENCIA.forEach(frase=>{
+    if(trunkNorm.includes(frase)){
+      errores.push({regla:'1. Regla de Ausencia', msg:`El problema central contiene "${frase}". La ausencia de una solución no es un problema (ej. no digas "falta de capacitación", di "alto índice de errores operativos").`});
+    }
+  });
+
+  // REGLA 2 — Estado negativo
+  const primeraPalabra = trunkNorm.split(/\s+/)[0];
+  const cumpleEstadoNegativo = PALABRAS_NEGATIVAS_INICIO.some(p => primeraPalabra.startsWith(p));
+  if(!cumpleEstadoNegativo){
+    errores.push({regla:'2. Regla de Estado Negativo', msg:`El problema central debe iniciar con una palabra que denote fricción o deterioro (ej. "Alta", "Baja", "Deficiente", "Caída", "Aumento", "Escasa"). Palabra detectada: "${primeraPalabra}".`});
+  }
+
+  // REGLA 3 — Unicidad
+  if(/\sy\s/.test(trunkNorm) || /\so\s/.test(trunkNorm)){
+    errores.push({regla:'3. Regla de Unicidad', msg:'El problema central contiene conjunciones (" y " / " o ") que dividen el foco en dos problemas distintos. Debe existir un solo problema central.'});
+  }
+
+  // REGLA 4 — Causalidad profunda
+  const trunkWords = new Set(contarPalabras(trunkNorm).filter(w => w.length > 3));
+  causas.forEach((c,i)=>{
+    const cWords = contarPalabras(c);
+    if(cWords.length < 6){
+      errores.push({regla:'4. Regla de Causalidad Profunda', msg:`La Causa Raíz ${i+1} es demasiado superficial (${cWords.length} palabras). Se requieren mínimo 6 palabras que describan un mecanismo causal concreto.`});
+    }
+    const cNormWords = contarPalabras(normalizar(c)).filter(w => w.length > 3);
+    const repetidas = cNormWords.filter(w => trunkWords.has(w));
+    const proporcion = cNormWords.length > 0 ? repetidas.length / cNormWords.length : 0;
+    if(proporcion > 0.30){
+      errores.push({regla:'4. Regla de Causalidad Profunda', msg:`La Causa Raíz ${i+1} repite ${(proporcion*100).toFixed(0)}% de las palabras clave del problema central. Esto sugiere lógica circular (la causa es casi una reafirmación del problema).`});
+    }
+  });
+
+  // REGLA 5 — Impacto
+  efectos.forEach((e,i)=>{
+    const eNorm = normalizar(e);
+    const tieneImpacto = TERMINOS_IMPACTO.some(term => eNorm.includes(term));
+    if(!tieneImpacto){
+      errores.push({regla:'5. Regla de Impacto', msg:`El Efecto ${i+1} no contiene un término medible o tangible (ej. "costos", "tiempo", "pérdida", "riesgo", "quejas", "deserción"). Un efecto vago no sirve para justificar inversión.`});
+    }
+  });
+
+  renderAlertas(errores);
+
+  if(errores.length === 0){
+    tab1Approved = false; // se reafirma al aprobar
+    unlockTab2();
+    generarPreguntasSocraticas(causas);
+    prepararArbolObjetivos(trunk, causas, efectos);
+    document.getElementById('socraticPanel').style.display = 'block';
+  } else {
+    document.getElementById('socraticPanel').style.display = 'none';
+  }
+}
+
+function renderAlertas(errores){
+  const zone = document.getElementById('alertZone');
+  if(errores.length === 0){
+    zone.innerHTML = `
+      <div class="alert success">
+        ✅ <div><b>Auditoría aprobada.</b> Tu Árbol de Problemas cumple las 5 reglas del Marco Lógico. La Pestaña 2 ha sido desbloqueada.</div>
+      </div>`;
+    return;
+  }
+  zone.innerHTML = errores.map(e => `
+    <div class="alert error">
+      ⛔ <div><b>${e.regla}:</b> ${e.msg}</div>
+    </div>
+  `).join('');
+}
+
+/* ==================================================================
+   PREGUNTAS SOCRÁTICAS
+================================================================== */
+function generarPreguntasSocraticas(causas){
+  const preguntas = [
+    `Si resolvemos <b>"${causas[0]}"</b>, ¿el problema central desaparece por completo o solo se mitiga?`,
+    `¿Qué comportamiento humano profundo o incentivo sistémico está manteniendo viva la causa <b>"${causas[1]}"</b>?`,
+    `¿Es <b>"${causas[2]}"</b> verdaderamente una raíz estructural, o simplemente un síntoma de una falla operativa más profunda?`,
+    `¿Qué evidencia empírica rigurosa demuestra que estas causas existen más allá de nuestra propia intuición?`,
+    `¿A quién beneficia actualmente que este problema no se resuelva?`
+  ];
+  document.getElementById('socraticList').innerHTML = preguntas.map((p,i)=>`
+    <div class="socratic-item"><span class="pill">P${i+1}</span> &nbsp;${p}</div>
+  `).join('');
+}
+
+/* ==================================================================
+   TAB 2 — TRANSFORMACIÓN A ÁRBOL DE OBJETIVOS
+================================================================== */
+const DICCIONARIO_POSITIVO = [
+  [/\bbaja\b/gi, 'Alta'], [/\bbajo\b/gi, 'Alto'],
+  [/\balta\b/gi, 'Optimizada'], [/\balto\b/gi, 'Optimizado'],
+  [/\bdeficiente\b/gi, 'Eficiente'], [/\bcaída\b/gi, 'Recuperación'], [/\bcaida\b/gi, 'Recuperación'],
+  [/\baumento\b/gi, 'Reducción'], [/\bescasa\b/gi, 'Suficiente'], [/\bescaso\b/gi, 'Suficiente'],
+  [/\bpérdida\b/gi, 'Retención'], [/\bperdida\b/gi, 'Retención'],
+  [/\bdeserción\b/gi, 'Fidelización'], [/\bdesercion\b/gi, 'Fidelización'],
+  [/\bquejas\b/gi, 'satisfacción'], [/\briesgo\b/gi, 'estabilidad'], [/\briesgos\b/gi, 'estabilidad'],
+  [/\blento\b/gi, 'Rápido'], [/\blenta\b/gi, 'Rápida'],
+  [/\breducido\b/gi, 'Ampliado'], [/\breducida\b/gi, 'Ampliada'],
+  [/\bpobre\b/gi, 'Sólido'], [/\bdébil\b/gi, 'Sólido'], [/\bdebil\b/gi, 'Sólido'],
+  [/\bmala\b/gi, 'Buena'], [/\bmalo\b/gi, 'Bueno'],
+  [/\binsuficiente\b/gi, 'Suficiente'], [/\blimitado\b/gi, 'Amplio'], [/\blimitada\b/gi, 'Amplia'],
+  [/\bexcesivo\b/gi, 'Controlado'], [/\bexcesiva\b/gi, 'Controlada'],
+  [/\bno explica\b/gi, 'explica claramente'], [/\bno encuentran\b/gi, 'encuentran fácilmente'],
+  [/\btarda más de\b/gi, 'resuelve en menos de'], [/\babandonan\b/gi, 'permanecen'],
+  [/\babandono\b/gi, 'permanencia'], [/\bincremento\b/gi, 'disminución'],
+  [/\bpierden\b/gi, 'conservan'], [/\bmorosidad\b/gi, 'puntualidad de pago'],
+];
+
+function positivizar(texto){
+  let resultado = texto;
+  DICCIONARIO_POSITIVO.forEach(([regex, reemplazo])=>{
+    resultado = resultado.replace(regex, reemplazo);
+  });
+  return resultado;
+}
+
+function prepararArbolObjetivos(trunk, causas, efectos){
+  document.getElementById('trunkNeg').textContent = '🌳 ' + trunk;
+  document.getElementById('trunkPos').textContent = '🎯 ' + positivizar(trunk);
+
+  const causesGrid = document.getElementById('causesFlipGrid');
+  causesGrid.innerHTML = causas.map((c,i)=>`
+    <div class="flip-card" onclick="toggleFlip(this)">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">🌱 ${c}</div>
+        <div class="flip-face flip-back">🛠️ ${positivizar(c)}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const effectsGrid = document.getElementById('effectsFlipGrid');
+  effectsGrid.innerHTML = efectos.map((e,i)=>`
+    <div class="flip-card" onclick="toggleFlip(this)">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">🍂 ${e}</div>
+        <div class="flip-face flip-back">🌟 ${positivizar(e)}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('goalFinalBox').innerHTML = `
+    <h3>🏁 Meta Estratégica Final</h3>
+    <p style="margin:0 0 10px;">${positivizar(trunk)}</p>
+    <h3 style="margin-top:14px;">✨ Fines Esperados</h3>
+    <ul style="margin:8px 0 0 18px; line-height:1.6;">
+      ${efectos.map(e => `<li>${positivizar(e)}</li>`).join('')}
+    </ul>
+  `;
+
+  document.getElementById('tab2Locked').style.display = 'none';
+  document.getElementById('tab2Content').style.display = 'block';
+}
+
+function toggleFlip(card){
+  card.classList.toggle('flipped');
+}
+
+/* ==================================================================
+   TAB 3 — CALCULADORA PREDICTIVA DE REPRESENTATIVIDAD
+================================================================== */
+function calcularMuestra(){
+  const N = parseInt(document.getElementById('poblacion').value);
+  const nActual = parseInt(document.getElementById('muestraActual').value);
+  const zone = document.getElementById('statResultZone');
+
+  if(!N || N <= 0 || isNaN(nActual) || nActual < 0){
+    zone.innerHTML = `<div class="alert error">⛔ <div>Ingresa una Población Total válida (mayor a 0) y una cantidad de encuestas realizadas (0 o más).</div></div>`;
+    return;
+  }
+
+  // Cochran's formula — 95% confianza (Z=1.96), 5% margen de error, p=0.5 (máxima varianza)
+  const Z = 1.96;
+  const e = 0.05;
+  const p = 0.5;
+
+  const n0 = (Z*Z*p*(1-p)) / (e*e); // ≈ 384.16
+  const nRequerido = Math.ceil(n0 / (1 + (n0 - 1)/N));
+
+  const cumple = nActual >= nRequerido;
+
+  let statCardsHtml = `
+    <div class="stat-result">
+      <div class="stat-card">
+        <div class="num">${nRequerido.toLocaleString('es-MX')}</div>
+        <div class="lbl">Muestra requerida (95% confianza / 5% error)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${nActual.toLocaleString('es-MX')}</div>
+        <div class="lbl">Muestra recolectada por el equipo</div>
+      </div>
+    </div>
+  `;
+
+  let panelHtml = '';
+
+  if(!cumple){
+    // ---- MODELO PREDICTIVO DE RIESGO ----
+    const nEfectivo = Math.max(nActual, 1);
+    let margenActual;
+    if(nActual === 0){
+      margenActual = 1; // 100% de error si no hay muestra
+    } else {
+      const factorFinito = Math.sqrt(Math.max((N - nEfectivo)/(N - 1), 0));
+      margenActual = Z * Math.sqrt((p*(1-p))/nEfectivo) * factorFinito;
+    }
+    const margenPct = Math.min(margenActual*100, 100);
+    const deficit = Math.max(nRequerido - nActual, 0);
+    const riesgoSesgo = Math.min(99, Math.round(((margenActual - e) / e) * 100 * (deficit>0?1:0) + (nActual===0?60:0)));
+    const riesgoFinal = Math.max(riesgoSesgo, nActual===0?85:0);
+
+    panelHtml = `
+      <div class="risk-panel">
+        <h3>⚠️ Modelo Predictivo de Riesgo</h3>
+        <p style="margin:0 0 4px;">Con <b>${nActual}</b> encuestas frente a las <b>${nRequerido}</b> requeridas, tu margen de error real es de aproximadamente:</p>
+        <div class="stat-card" style="margin:14px 0; max-width:220px;">
+          <div class="num" style="color:#B36A00">±${margenPct.toFixed(1)}%</div>
+          <div class="lbl">Margen de error real (vs. 5% objetivo)</div>
+        </div>
+        <p style="margin:8px 0 4px;">Probabilidad estimada de sesgo / falso positivo al escalar:</p>
+        <div class="risk-bar-track">
+          <div class="risk-bar-fill" style="width:${Math.min(riesgoFinal,100)}%;"></div>
+        </div>
+        <p style="margin:4px 0 0; font-weight:700; color:#B36A00;">${Math.min(riesgoFinal,100)}% de riesgo de sesgo</p>
+
+        <div class="wow-box">
+          <b>🥔 Advertencia histórica — El fiasco de las papas WOW (Frito-Lay):</b> Frito-Lay lanzó las papas "WOW" con Olestra tras pruebas con muestras poco representativas del efecto gastrointestinal a largo plazo en la población masiva. Al escalar sin evidencia representativa, los efectos adversos (reales, pero minimizados por una muestra insuficiente) se manifestaron a gran escala, dañando la marca. Escalar un insight de tu Mapa de Empatía con <b>${nActual} entrevistas</b> conlleva un riesgo similar: lo que "funciona" en tu muestra puede no representar al resto de la población de <b>${N.toLocaleString('es-MX')}</b> personas.
+        </div>
+      </div>
+    `;
+  } else {
+    // ---- MODELO PROSPECTIVO DE ESCALABILIDAD ----
+    const factorFinito = Math.sqrt(Math.max((N - nActual)/(N - 1), 0));
+    const margenLogrado = nActual >= N ? 0 : Z * Math.sqrt((p*(1-p))/nActual) * factorFinito;
+    const margenLogradoPct = margenLogrado*100;
+
+    panelHtml = `
+      <div class="risk-panel ok">
+        <h3>✅ Inmunidad Estadística Certificada</h3>
+        <p style="margin:0 0 10px;">Tu muestra de <b>${nActual.toLocaleString('es-MX')}</b> encuestas <b>iguala o supera</b> el mínimo requerido (${nRequerido.toLocaleString('es-MX')}) para una población de ${N.toLocaleString('es-MX')} personas.</p>
+
+        <div class="stat-card" style="margin:14px 0; max-width:240px; border-color:var(--success-border);">
+          <div class="num" style="color:var(--success)">±${margenLogradoPct.toFixed(2)}%</div>
+          <div class="lbl">Margen de desviación real logrado</div>
+        </div>
+
+        <div class="risk-bar-track">
+          <div class="risk-bar-fill ok" style="width:${Math.min((nActual/nRequerido)*100,100)}%;"></div>
+        </div>
+        <p style="margin:10px 0 0;">📈 <b>Proyección de escalabilidad:</b> Los insights extraídos de tu Mapa de Empatía son <b>estadísticamente escalables</b> al resto de la población, con una desviación esperada de apenas <b>±${margenLogradoPct.toFixed(2)}%</b> respecto a lo observado en tu muestra. Puedes presentar estos hallazgos ante un comité de inversión con respaldo estadístico sólido.</p>
+      </div>
+    `;
+  }
+
+  zone.innerHTML = statCardsHtml + panelHtml;
+}
+</script>
+</body>
+</html>
