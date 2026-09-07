@@ -663,7 +663,7 @@ function saveMad(id){
   if(Number.isNaN(num)) { alert('Ingrese un número válido para MAD'); return; }
   h.madValue = num;
   h.madResult = evaluateMad(h);
-  saveData(); renderAll();
+  saveItem(h); renderAll();
   if(h.madResult==='Confirmada') alert(`Resultado: Confirmada — MAD=${num}`);
   else if(h.madResult==='Refutada') alert(`Resultado: Refutada — MAD=${num}`);
   else alert(`Resultado: Indeterminada — MAD=${num}`);
