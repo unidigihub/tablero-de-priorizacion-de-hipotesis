@@ -470,11 +470,11 @@ async function saveData(){
   method: "POST",
   body: JSON.stringify(hipotesisData)
 });  
-  } catch(e) {
-    console.error("No se pudo guardar en Google Sheets:", e);
-  }
+ } catch(e) {
+  console.error("No se pudo guardar en Google Sheets:", e);
+  alert("⚠ No se pudo sincronizar con Google Sheets. Tu cambio se guardó solo en este navegador — revisa tu conexión a internet.");
 }
-
+}  
 let hipotesisData = [...seedData];
 let currentSort = {key:"", asc:true};
 let editingId = null;
