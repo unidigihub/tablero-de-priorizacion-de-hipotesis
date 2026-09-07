@@ -860,8 +860,11 @@ function renderAll(){
 }
 
 document.addEventListener("DOMContentLoaded", async ()=>{
+  document.getElementById("noRes").hidden = false;
+  document.getElementById("noRes").textContent = "Cargando datos...";
   hipotesisData = await loadData();
-  renderAll();
+  document.getElementById("noRes").textContent = "No hay hipótesis que coincidan con los filtros.";
+  renderAll(); 
   bindSort();
   bindKanbanDrop();
   bindTabs();
