@@ -920,6 +920,28 @@ function renderAll(){
   renderKanban();
   renderDashboard();
 }
+/*** Insertar esta función en <script> antes de las primeras llamadas a loadData() ***/
+async function loadData(){
+  // Intenta cargar del localStorage
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed) && parsed.length){ hipotesisData = parsed; return hipotesisData; }
+    }
+  } catch(e){
+    console.warn("Error leyendo localStorage:", e);
+  }
+
+  // Si no hay nada en localStorage, inicializa desde seedData y persiste
+  if(!hipotesisData || !hipotesisData.length){
+    hipotesisData = Array.isArray(seedData) ? [...seedData] : [];
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(hipotesisData)); } catch(e){}
+  }
+
+  // (Opcional) aquí se podría intentar sincronizar con SHEETS_URL si quieres
+  return hipotesisData;
+} 
 setInterval(async ()=>{
   const modalAbierto = document.getElementById("modalBackdrop").classList.contains("open");
   if(modalAbierto) return;
