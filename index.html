@@ -753,7 +753,7 @@ function saveForm(){
   } else {
     hipotesisData.push(newObj);
   }
-  saveData();
+saveItem(newObj);
   closeModal();
   renderAll();
   if(newObj.madValue!==null){
@@ -801,7 +801,7 @@ function bindKanbanDrop(){
       const id = dragging.dataset.id;
       const nuevoEstado = col.dataset.estado;
       const h = hipotesisData.find(x=>x.id===id);
-      if(h){ h.estado = nuevoEstado; saveData(); renderAll(); }
+      if(h){ h.estado = nuevoEstado; saveItem(h); renderAll(); }
     });
   });
 }
