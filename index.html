@@ -726,7 +726,7 @@ function closeModal(){ document.getElementById("modalBackdrop").classList.remove
 function deleteHip(id){
   if(!confirm("¿Eliminar esta hipótesis?")) return;
   hipotesisData = hipotesisData.filter(h=>h.id!==id);
-  saveData(); renderAll();
+  deleteItemRemote(id); renderAll();
 }
 function saveForm(){
   const newObj = {
