@@ -615,7 +615,12 @@ function generarPreguntasSocraticas(causas){
 /* ==================================================================
    TAB 2 — TRANSFORMACIÓN A ÁRBOL DE OBJETIVOS
 ================================================================== */
-const DICCIONARIO_POSITIVO = [
+// Voltea la tarjeta al hacer clic, agregando/quitando la clase
+// "flipped" que ya tienes definida en tu CSS (.flip-card.flipped)
+function toggleFlip(card){
+  card.classList.toggle('flipped');
+} 
+  const DICCIONARIO_POSITIVO = [
   [/\bbaja\b/gi, 'Alta'], [/\bbajo\b/gi, 'Alto'],
   [/\balta\b/gi, 'Optimizada'], [/\balto\b/gi, 'Optimizado'],
   [/\bdeficiente\b/gi, 'Eficiente'], [/\bcaída\b/gi, 'Recuperación'], [/\bcaida\b/gi, 'Recuperación'],
@@ -635,14 +640,29 @@ const DICCIONARIO_POSITIVO = [
   [/\bpierden\b/gi, 'conservan'], [/\bmorosidad\b/gi, 'puntualidad de pago'],
 ];
 
+// Asegura que la primera letra de una frase quede en mayúscula,
+// sin tocar el resto del texto.
+function capitalizarPrimera(texto){
+  if(!texto) return texto;
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+// Asegura que una frase termine en punto (si ya termina en
+// ".", "!" o "?" no le agrega otro).
+function conPuntoFinal(texto){
+  const limpio = texto.trim();
+  if(!limpio) return limpio;
+  return /[.!?]$/.test(limpio) ? limpio : limpio + '.';
+}
+
 function positivizar(texto){
   let resultado = texto;
   DICCIONARIO_POSITIVO.forEach(([regex, reemplazo])=>{
     resultado = resultado.replace(regex, reemplazo);
   });
-  return resultado;
+  return capitalizarPrimera(resultado);
 }
-
+  
 function prepararArbolObjetivos(trunk, causas, efectos){
   document.getElementById('trunkNeg').textContent = '🌳 ' + trunk;
   document.getElementById('trunkPos').textContent = '🎯 ' + positivizar(trunk);
