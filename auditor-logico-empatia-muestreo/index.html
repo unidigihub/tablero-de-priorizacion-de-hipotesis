@@ -385,9 +385,19 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important
 
   <div id="tab3Content" style="display:none;">
     <div class="panel">
-      <h2>🎯 Falsabilidad — Umbral de Popper</h2>
-      <p class="sub">Para cada Medio Estratégico, el sistema convierte tu meta en una hipótesis. Define una métrica exacta y el umbral matemático que, de no cumplirse, refutará tu idea (metodología de Karl Popper).</p>
+        <h2>🎯 Falsabilidad — Umbral de Popper</h2>
+      <p class="sub">Para cada Medio Estratégico, el sistema convierte tu meta en una hipótesis. Elige una métrica exacta y define el umbral matemático que, de no cumplirse, refutará tu idea (metodología de Karl Popper).</p>
+
+      <div class="alert info">
+        💡 <div>
+          <b>¿Qué es el Umbral de Popper?</b> Es el número exacto que decidirá, en el futuro, si tu idea funcionó o fracasó. Según Karl Popper, una idea solo es científicamente válida si se puede <b>demostrar que es falsa</b> con un dato concreto — no basta con que "suene bien".
+          <br><br>
+          <b>¿Cómo lo defino?</b> Pregúntate: <i>"¿Qué resultado sería tan malo que tendría que aceptar que mi solución no sirvió?"</i> Ese número (un porcentaje, una cantidad, un tiempo) es tu Umbral. Defínelo <b>ahora, antes de tener resultados</b> — si lo inventas después de ver los datos, ya no sirve como prueba.
+        </div>
+      </div>
+
       <div id="falsabilidadForm"></div>
+      
       <div class="btn-row">
         <button class="primary" onclick="generarHipotesisFalsables()">🧮 Generar Hipótesis Falsables (H1, H2, H3)</button>
       </div>
@@ -709,19 +719,39 @@ function prepararArbolObjetivos(trunk, causas, efectos){
   document.getElementById('tab3Locked').style.display = 'none';
   document.getElementById('tab3Content').style.display = 'block';
 }
+// Genera 3 propuestas de métrica a partir del Medio Estratégico,
+// bajo 3 enfoques distintos: porcentaje, cantidad y tiempo.
+// El estudiante debe elegir solo una.
+function generarSugerenciasMetrica(medio){
+  return [
+    `Porcentaje de casos que logran: ${medio}`,
+    `Número total de casos/reportes relacionados con: ${medio}`,
+    `Tiempo promedio (en días) para alcanzar: ${medio}`
+  ];
+}
+
 function prepararFalsabilidad(causas){
   mediosActuales = causas.map(c => positivizar(c));
 
   const form = document.getElementById('falsabilidadForm');
-  form.innerHTML = mediosActuales.map((medio, i) => `
+  form.innerHTML = mediosActuales.map((medio, i) => {
+    const opciones = generarSugerenciasMetrica(medio);
+    return `
     <div class="trunk-block" style="margin-bottom:16px;">
       <span class="section-tag">MEDIO ${i+1} → H${i+1}</span>
       <p style="margin:4px 0 14px;font-weight:700;color:var(--text);">🛠️ ${medio}</p>
-      <div class="grid3">
-        <div>
-          <label>Métrica exacta a monitorear</label>
-          <input type="text" id="metrica${i}" placeholder="Ej: Tasa de efectos adversos reportados">
-        </div>
+
+      <label>Elige la métrica exacta a monitorear</label>
+      <div class="metrica-opciones">
+        ${opciones.map((op, j) => `
+          <label class="metrica-opcion">
+            <input type="radio" name="metrica${i}" value="${op.replace(/"/g,'&quot;')}">
+            ${op}
+          </label>
+        `).join('')}
+      </div>
+
+      <div class="grid2">
         <div>
           <label>Condición de éxito</label>
           <select class="medio-select" id="operador${i}">
@@ -736,20 +766,23 @@ function prepararFalsabilidad(causas){
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   document.getElementById('hipotesisResultZone').innerHTML = '';
 }
-
+  
 function generarHipotesisFalsables(){
   const zone = document.getElementById('hipotesisResultZone');
+  const form = document.getElementById('falsabilidadForm');
   const errores = [];
   const hipotesis = [];
 
   const operadorTexto = { menor: 'será menor a', mayor: 'será mayor a', igual: 'será igual a' };
 
   for(let i = 0; i < mediosActuales.length; i++){
-    const metrica = document.getElementById(`metrica${i}`).value.trim();
+    const metricaElegida = form.querySelector(`input[name="metrica${i}"]:checked`);
+    const metrica = metricaElegida ? metricaElegida.value : '';
     const operador = document.getElementById(`operador${i}`).value;
     const umbral = document.getElementById(`umbral${i}`).value.trim();
 
