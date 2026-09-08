@@ -36,11 +36,11 @@ main{max-width:1080px;margin:0 auto;padding:0 20px;}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:22px;
   box-shadow:0 4px 20px -12px rgba(30,144,255,.15);}
 .panel h2{margin:0 0 6px;font-size:19px;display:flex;align-items:center;gap:10px;color:var(--text);}
-.panel .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px;}
+.panel .sub{color:var(--muted);font-size:15px;margin:0 0 18px;}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media(max-width:760px){.grid3,.grid2{grid-template-columns:1fr;}}
-label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:6px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;}
 input[type=text], input[type=number], textarea{
   width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);
   padding:11px 13px;border-radius:var(--radius-sm);font-size:14px;font-family:inherit;resize:vertical;
@@ -84,8 +84,8 @@ button.secondary:hover{border-color:var(--accent);}
   padding:14px 16px;display:flex;align-items:center;font-size:14px;line-height:1.4;border:1px solid var(--border);}
 .flip-front{background:var(--danger-bg);border-color:var(--danger-border);color:#B36A00;}
 .flip-back{background:var(--success-bg);border-color:var(--success-border);color:#3f7a24;transform:rotateY(180deg);}
-.flip-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:-4px;margin-bottom:14px;}
-.trunk-flip .flip-face{font-weight:700;font-size:16px;justify-content:flex-end;text-align:center;}
+.flip-hint{font-size:14.5px;font-weight:600;color:var(--muted);text-align:center;margin-top:-4px;margin-bottom:14px;}
+.trunk-flip .flip-face{font-weight:700;font-size:16px;justify-content:center;text-align:center;}
 .goal-final{margin-top:22px;padding:20px;border-radius:var(--radius-sm);
   background:linear-gradient(135deg, rgba(30,144,255,.10), rgba(255,165,0,.10));
   border:1px solid var(--accent);}
@@ -99,7 +99,7 @@ button.secondary:hover{border-color:var(--accent);}
 .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-sm);
   padding:16px;text-align:center;}
 .stat-card .num{font-size:26px;font-weight:800;color:var(--accent);}
-.stat-card .lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+.stat-card .lbl{font-size:13.5px;color:var(--muted);margin-top:4px;}
 .risk-panel{margin-top:20px;border-radius:var(--radius);padding:22px;border:1px solid var(--danger-border);
   background:var(--danger-bg);}
 .risk-panel.ok{border-color:var(--success-border);background:var(--success-bg);}
@@ -112,7 +112,16 @@ button.secondary:hover{border-color:var(--accent);}
 .wow-box{margin-top:16px;background:#FFF3E0;border:1px dashed var(--warn);border-radius:var(--radius-sm);
   padding:14px 16px;font-size:13px;line-height:1.6;color:#8a5a00;}
 .wow-box b{color:#B36A00;}
-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;}
+.hip-card{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:16px;text-align:left;display:flex;flex-direction:column;gap:8px;}
+.hip-card .hip-tag{font-weight:800;color:var(--accent);font-size:14px;letter-spacing:.4px;}
+.hip-card .hip-text{font-size:14px;line-height:1.5;color:var(--text);}
+.hip-card .hip-refutacion{font-size:12.5px;color:#B36A00;border-top:1px dashed var(--danger-border);
+  padding-top:8px;line-height:1.5;}
+.medio-select{width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+  padding:11px 13px;border-radius:var(--radius-sm);font-size:14px;font-family:inherit;}
+.medio-select:focus{outline:none;border-color:var(--accent);} 
+footer{text-align:center;color:var(--muted);font-size:13.5px;margin-top:40px;}
 
 /* --- Pestaña 0: Portal de Acceso y Habeas Data (Gatekeeper) --- */
 #gatekeeperOverlay{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 20% -10%,#F3F9FF 0%,var(--bg) 55%);
@@ -132,8 +141,8 @@ input[type=email]:focus{outline:none;border-color:var(--accent);}
 .gk-checkbox-row{display:flex;gap:10px;align-items:flex-start;background:var(--panel-2);border:1px solid var(--border);
   border-radius:var(--radius-sm);padding:14px;margin:16px 0 20px;}
 .gk-checkbox-row input[type=checkbox]{margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;}
-.gk-checkbox-row label{text-transform:none;letter-spacing:normal;font-weight:400;color:var(--muted);font-size:12px;
-  line-height:1.5;margin-bottom:0;cursor:pointer;}
+.gk-checkbox-row label{text-transform:none;letter-spacing:normal;font-weight:400;color:var(--muted);font-size:13.5px;
+  line-height:1.6;margin-bottom:0;cursor:pointer;}
 button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important;}
 #gkErrorZone{margin-bottom:4px;}
 .gk-logos{display:flex;justify-content:flex-end;align-items:center;gap:24px;margin-bottom:18px;}
@@ -142,6 +151,19 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important
 .header-logos img{max-height:42px;width:auto;object-fit:contain;}
 @media(max-width:480px){
   .gk-logos img,.header-logos img{max-height:34px;}
+} 
+@media(max-width:600px){
+  main{padding:0 14px;}
+  header{padding:24px 14px 10px;}
+  nav.tabs{gap:8px;}
+  .nav-btn{flex:1 1 100%;justify-content:center;padding:13px 16px;font-size:14px;}
+  .panel{padding:18px;}
+  .flip-card{height:auto;min-height:110px;}
+  .flip-face{position:relative;height:auto;min-height:110px;padding:16px;}
+  .grid3, .grid2{gap:10px;}
+}
+@media(min-width:1200px){
+  main{max-width:1180px;}
 }  
 </style>
 </head>
@@ -239,15 +261,33 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important
 </header>
 
 <nav class="tabs">
-  <button class="nav-btn active" data-tab="tab1" onclick="goToTab('tab1')">🌳 1. Árbol de Problemas</button>
+  <button class="nav-btn active" data-tab="tab0" onclick="goToTab('tab0')">📋 Instrucciones</button>
+  <button class="nav-btn" data-tab="tab1" onclick="goToTab('tab1')">🌳 1. Árbol de Problemas</button>
   <button class="nav-btn locked" data-tab="tab2" onclick="goToTab('tab2')"><span class="lock-icon">🔒</span> 2. Árbol de Objetivos</button>
-  <button class="nav-btn" data-tab="tab3" onclick="goToTab('tab3')">📊 3. Calculadora de Muestreo</button>
+  <button class="nav-btn locked" data-tab="tab3" onclick="goToTab('tab3')"><span class="lock-icon">🔒</span> 3. Falsabilidad (Popper)</button>
+  <button class="nav-btn" data-tab="tab4" onclick="goToTab('tab4')">📊 4. Calculadora de Muestreo</button>
 </nav>
-
 <main>
+<!-- ===================== TAB 0: INSTRUCCIONES ===================== -->
+<section id="tab0" class="tab-content active">
+  <div class="panel">
+    <h2>📋 Instrucciones de Uso</h2>
+    <p class="sub">Sigue estos 5 pasos en orden para completar tu auditoría metodológica de principio a fin.</p>
+    <ol style="margin:0;padding-left:22px;line-height:1.8;font-size:15px;color:var(--text);">
+      <li style="margin-bottom:14px;">Registra tus datos básicos en la pantalla de inicio y acepta las políticas para desbloquear el acceso a la herramienta.</li>
+      <li style="margin-bottom:14px;">Escribe tu problema central, sus tres causas y sus tres efectos sin utilizar la frase "falta de", y haz clic en el botón "Auditar" para que el sistema evalúe tu redacción.</li>
+      <li style="margin-bottom:14px;">Avanza a la segunda pestaña y haz clic en cada tarjeta para voltearla, transformando interactivamente tus estados negativos en objetivos positivos.</li>
+      <li style="margin-bottom:14px;">Dirígete a la tercera pestaña, exclusiva de falsabilidad, para convertir esas metas en hipótesis y definir el límite numérico exacto (Umbral de Popper) que podría desmentir tu idea en el futuro.</li>
+      <li style="margin-bottom:0;">Ingresa el tamaño total de tu público y el número de encuestas realizadas en la cuarta pestaña, para comprobar matemáticamente si tu investigación es válida para salir al mercado.</li>
+    </ol>
+    <div class="btn-row" style="margin-top:22px;">
+      <button class="primary" onclick="goToTab('tab1')">Comenzar → Árbol de Problemas</button>
+    </div>
+  </div>
+</section>
 
 <!-- ===================== TAB 1 ===================== -->
-<section id="tab1" class="tab-content active">
+<section id="tab1" class="tab-content">
 
   <div class="panel">
     <h2>🌳 Auditoría del Árbol de Problemas</h2>
@@ -328,9 +368,30 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important
     </div>
   </div>
 </section>
-
-<!-- ===================== TAB 3 ===================== -->
+<!-- ===================== TAB 3: FALSABILIDAD / UMBRAL DE POPPER ===================== -->
 <section id="tab3" class="tab-content">
+  <div id="tab3Locked" class="panel">
+    <div class="locked-msg">
+      <span class="big">🔒</span>
+      Completa y aprueba la <b>Auditoría del Árbol de Problemas</b> (Pestaña 1) para desbloquear la Falsabilidad.
+    </div>
+  </div>
+
+  <div id="tab3Content" style="display:none;">
+    <div class="panel">
+      <h2>🎯 Falsabilidad — Umbral de Popper</h2>
+      <p class="sub">Para cada Medio Estratégico, el sistema convierte tu meta en una hipótesis. Define una métrica exacta y el umbral matemático que, de no cumplirse, refutará tu idea (metodología de Karl Popper).</p>
+      <div id="falsabilidadForm"></div>
+      <div class="btn-row">
+        <button class="primary" onclick="generarHipotesisFalsables()">🧮 Generar Hipótesis Falsables (H1, H2, H3)</button>
+      </div>
+      <div id="hipotesisResultZone" class="result-box"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TAB 4: CALCULADORA ===================== -->
+<section id="tab4" class="tab-content">
   <div class="panel">
     <h2>📊 Calculadora Predictiva de Representatividad</h2>
     <p class="sub">Calcula si tu Mapa de Empatía tiene la base estadística suficiente para escalar sus conclusiones (95% de confianza, 5% de margen de error).</p>
@@ -363,32 +424,38 @@ button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none !important
    NAVEGACIÓN ENTRE PESTAÑAS
 ================================================================== */
 let tab1Approved = false;
+let mediosActuales = []; 
 
 function goToTab(tabId){
-  if(tabId === 'tab2' && !tab1Approved){
-    flashLockedTab();
+  if((tabId === 'tab2' || tabId === 'tab3') && !tab1Approved){
+    flashLockedTab(tabId);
     return;
   }
+
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   document.querySelector(`.nav-btn[data-tab="${tabId}"]`).classList.add('active');
 }
 
-function flashLockedTab(){
-  const btn = document.querySelector('.nav-btn[data-tab="tab2"]');
+function flashLockedTab(tabId){
+  const btn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
   btn.style.transition = 'none';
   btn.style.background = 'var(--danger-bg)';
   setTimeout(()=>{ btn.style.transition='background .4s'; btn.style.background=''; }, 350);
 }
-
-function unlockTab2(){
+  
+function unlockPestañas(){
   tab1Approved = true;
-  const btn = document.querySelector('.nav-btn[data-tab="tab2"]');
-  btn.classList.remove('locked');
-  btn.innerHTML = '✅ 2. Árbol de Objetivos';
-}
+  const btn2 = document.querySelector('.nav-btn[data-tab="tab2"]');
+  btn2.classList.remove('locked');
+  btn2.innerHTML = '✅ 2. Árbol de Objetivos';
 
+  const btn3 = document.querySelector('.nav-btn[data-tab="tab3"]');
+  btn3.classList.remove('locked');
+  btn3.innerHTML = '✅ 3. Falsabilidad (Popper)';
+}
+  
 /* ==================================================================
    DATOS DE EJEMPLO Y UTILIDADES
 ================================================================== */
@@ -410,8 +477,10 @@ function limpiarFormulario(){
   });
   document.getElementById('alertZone').innerHTML = '';
   document.getElementById('socraticPanel').style.display = 'none';
+  document.getElementById('hipotesisResultZone').innerHTML = '';
+  mediosActuales = [];
 }
-
+  
 function normalizar(txt){
   return txt.toLowerCase().trim();
 }
@@ -502,7 +571,7 @@ function auditarArbol(){
 
   if(errores.length === 0){
     tab1Approved = false; // se reafirma al aprobar
-    unlockTab2();
+    unlockPestañas();
     generarPreguntasSocraticas(causas);
     prepararArbolObjetivos(trunk, causas, efectos);
     document.getElementById('socraticPanel').style.display = 'block';
@@ -553,7 +622,7 @@ const DICCIONARIO_POSITIVO = [
   [/\baumento\b/gi, 'Reducción'], [/\bescasa\b/gi, 'Suficiente'], [/\bescaso\b/gi, 'Suficiente'],
   [/\bpérdida\b/gi, 'Retención'], [/\bperdida\b/gi, 'Retención'],
   [/\bdeserción\b/gi, 'Fidelización'], [/\bdesercion\b/gi, 'Fidelización'],
-  [/\bquejas\b/gi, 'satisfacción'], [/\briesgo\b/gi, 'estabilidad'], [/\briesgos\b/gi, 'estabilidad'],
+ [/\briesgo\b/gi, 'estabilidad'], [/\briesgos\b/gi, 'estabilidad'],
   [/\blento\b/gi, 'Rápido'], [/\blenta\b/gi, 'Rápida'],
   [/\breducido\b/gi, 'Ampliado'], [/\breducida\b/gi, 'Ampliada'],
   [/\bpobre\b/gi, 'Sólido'], [/\bdébil\b/gi, 'Sólido'], [/\bdebil\b/gi, 'Sólido'],
@@ -607,14 +676,90 @@ function prepararArbolObjetivos(trunk, causas, efectos){
     </ul>
   `;
 
-  document.getElementById('tab2Locked').style.display = 'none';
+    document.getElementById('tab2Locked').style.display = 'none';
   document.getElementById('tab2Content').style.display = 'block';
+
+  prepararFalsabilidad(causas);
+  document.getElementById('tab3Locked').style.display = 'none';
+  document.getElementById('tab3Content').style.display = 'block';
+}
+function prepararFalsabilidad(causas){
+  mediosActuales = causas.map(c => positivizar(c));
+
+  const form = document.getElementById('falsabilidadForm');
+  form.innerHTML = mediosActuales.map((medio, i) => `
+    <div class="trunk-block" style="margin-bottom:16px;">
+      <span class="section-tag">MEDIO ${i+1} → H${i+1}</span>
+      <p style="margin:4px 0 14px;font-weight:700;color:var(--text);">🛠️ ${medio}</p>
+      <div class="grid3">
+        <div>
+          <label>Métrica exacta a monitorear</label>
+          <input type="text" id="metrica${i}" placeholder="Ej: Tasa de efectos adversos reportados">
+        </div>
+        <div>
+          <label>Condición de éxito</label>
+          <select class="medio-select" id="operador${i}">
+            <option value="menor">La métrica será MENOR a</option>
+            <option value="mayor">La métrica será MAYOR a</option>
+            <option value="igual">La métrica será IGUAL a</option>
+          </select>
+        </div>
+        <div>
+          <label>Umbral (valor / %)</label>
+          <input type="text" id="umbral${i}" placeholder="Ej: 1%">
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('hipotesisResultZone').innerHTML = '';
 }
 
-function toggleFlip(card){
-  card.classList.toggle('flipped');
-}
+function generarHipotesisFalsables(){
+  const zone = document.getElementById('hipotesisResultZone');
+  const errores = [];
+  const hipotesis = [];
 
+  const operadorTexto = { menor: 'será menor a', mayor: 'será mayor a', igual: 'será igual a' };
+
+  for(let i = 0; i < mediosActuales.length; i++){
+    const metrica = document.getElementById(`metrica${i}`).value.trim();
+    const operador = document.getElementById(`operador${i}`).value;
+    const umbral = document.getElementById(`umbral${i}`).value.trim();
+
+    if(!metrica || !umbral){
+      errores.push(`Completa la <b>métrica</b> y el <b>umbral</b> del Medio ${i+1} para generar su hipótesis H${i+1}.`);
+      continue;
+    }
+
+    hipotesis.push({
+      titulo: `H${i+1}`,
+      texto: `Si logramos "${mediosActuales[i]}", entonces <b>${metrica}</b> ${operadorTexto[operador]} <b>${umbral}</b>.`,
+      refutacion: `🧨 Umbral de Popper: si al medir el MAD, "${metrica}" no cumple esta condición frente a <b>${umbral}</b>, la hipótesis H${i+1} queda <b>REFUTADA</b>.`
+    });
+  }
+
+  if(errores.length > 0){
+    zone.innerHTML = errores.map(e => `<div class="alert error">⛔ <div>${e}</div></div>`).join('');
+    return;
+  }
+
+  zone.innerHTML = `
+    <div class="grid3">
+      ${hipotesis.map(h => `
+        <div class="hip-card">
+          <div class="hip-tag">${h.titulo}</div>
+          <div class="hip-text">${h.texto}</div>
+          <div class="hip-refutacion">${h.refutacion}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="alert success" style="margin-top:16px;">
+      ✅ <div><b>${hipotesis.length} hipótesis falsables definidas.</b> Estas condiciones dictaminarán a futuro si tu innovación fue validada o refutada.</div>
+    </div>
+  `;
+}
+  
 /* ==================================================================
    TAB 3 — CALCULADORA PREDICTIVA DE REPRESENTATIVIDAD
 ================================================================== */
