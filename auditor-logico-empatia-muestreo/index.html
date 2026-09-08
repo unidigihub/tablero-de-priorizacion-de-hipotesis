@@ -689,13 +689,13 @@ function prepararArbolObjetivos(trunk, causas, efectos){
 
   document.getElementById('goalFinalBox').innerHTML = `
     <h3>🏁 Meta Estratégica Final</h3>
-    <p style="margin:0 0 10px;">${positivizar(trunk)}</p>
+    <p style="margin:0 0 10px;">${conPuntoFinal(positivizar(trunk))}</p>
     <h3 style="margin-top:14px;">✨ Fines Esperados</h3>
     <ul style="margin:8px 0 0 18px; line-height:1.6;">
-      ${efectos.map(e => `<li>${positivizar(e)}</li>`).join('')}
+      ${efectos.map(e => `<li>${conPuntoFinal(positivizar(e))}</li>`).join('')}
     </ul>
   `;
-
+  
     document.getElementById('tab2Locked').style.display = 'none';
   document.getElementById('tab2Content').style.display = 'block';
 
